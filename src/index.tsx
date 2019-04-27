@@ -1,18 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { logger } from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './components/App';
+import reducers from './modules';
+
 import * as serviceWorker from './serviceWorker';
 
-// require('dotenv').config();
-import 'dotenv/config';
+const middlewares = [thunk, logger];
+
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 
