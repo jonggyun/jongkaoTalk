@@ -104,7 +104,7 @@ const InputSection: React.FC<InputSectionProps> = ({
           Log In
         </Button>
         <TypeStatement>
-          <span onClick={handleType}>SIGN UP</span>
+          <span onClick={handleType}>Sign Up</span>
         </TypeStatement>
       </InputBox>
     ) : (

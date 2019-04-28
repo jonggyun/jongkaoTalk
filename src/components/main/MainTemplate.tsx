@@ -7,6 +7,7 @@ const HeaderTitle = styled.h1`
   font-size: 3.4375rem;
   font-family: 'Sigmar One', cursive;
   margin: 0;
+  color: #3b1e1e;
 `;
 
 const HeaderDesc = styled.h3`
@@ -21,6 +22,7 @@ const MainSection = styled.section`
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #ffeb3b;
 `;
 
 interface MainTemplateProps {}
@@ -31,7 +33,7 @@ const MainTemplate: React.FC<MainTemplateProps> = () => (
     <HeaderDesc>
       JongkaoTalk is <b>Free Chatting Service</b>.
       <br />
-      Please enter your account. If you don't have username please sign up.
+      Please enter your account. If you don't have account please sign up.
     </HeaderDesc>
     <InputSectionContainer />
   </MainSection>

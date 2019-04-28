@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { RootState } from '../../modules';
+import { userRegister } from '../../modules/auth';
+
 import InputSection from '../../components/main/InputSection';
 
-interface InputSectionContainer {}
-const InputSectionContainer: React.FC<InputSectionContainer> = () => {
+interface InputSectionContainer {
+  userRegister: Function;
+}
+const InputSectionContainer: React.FC<InputSectionContainer> = ({
+  userRegister,
+}) => {
   const [type, typeState] = useState('login');
   const [username, usernameState] = useState('');
   const [nickname, nicknameState] = useState('');
@@ -33,6 +41,9 @@ const InputSectionContainer: React.FC<InputSectionContainer> = () => {
 
   const handleOnSubmit = () => {
     console.log(type, username, nickname, password);
+    type === 'login'
+      ? console.log('login')
+      : userRegister({ username, nickname, password });
   };
 
   useEffect(() => {
@@ -56,4 +67,9 @@ const InputSectionContainer: React.FC<InputSectionContainer> = () => {
   );
 };
 
-export default InputSectionContainer;
+export default connect(
+  null,
+  {
+    userRegister,
+  }
+)(InputSectionContainer);
