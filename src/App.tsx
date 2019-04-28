@@ -1,12 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import LoginPage from '../pages/LoginPage';
+import MainPage from './pages/MainPage';
 
 const App: React.FC = () => {
   return (
     <>
-      <Route exact path="/" component={LoginPage} />
+      <Route exact path="/" component={MainPage} />
     </>
   );
 };
