@@ -42,21 +42,17 @@ export const firebaseDB = firebase.database();
 //     console.log('error', errorCode, errorMessage, email, credential);
 //   });
 
-export const createUser = ({
+export const signUp = async ({
   email,
   password,
 }: {
   email: string;
   password: string;
 }) => {
-  console.log('createUser', email, password);
-  firebase
+  await firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(res => {
-      console.log('success', res);
-    })
     .catch(err => {
-      console.log('err', err);
+      throw new Error(err);
     });
 };

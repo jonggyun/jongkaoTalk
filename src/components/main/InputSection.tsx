@@ -46,6 +46,7 @@ const InvalidLabel = styled.span`
 
 interface InputSectionProps {
   type: string;
+  pageType: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -57,6 +58,7 @@ interface InputSectionProps {
 
 const InputSection: React.FC<InputSectionProps> = ({
   type,
+  pageType,
   handleType,
   handleOnChange,
   handleOnSubmit,
@@ -66,8 +68,8 @@ const InputSection: React.FC<InputSectionProps> = ({
   comparePassword,
 }) => (
   <WrapSection>
-    <Title>{type === 'login' ? 'Log In' : 'Sign Up'}</Title>
-    {type === 'login' ? (
+    <Title>{pageType === 'login' ? 'Log In' : 'Sign Up'}</Title>
+    {pageType === 'login' ? (
       <InputBox>
         <Input
           placeholder="email"
@@ -100,7 +102,7 @@ const InputSection: React.FC<InputSectionProps> = ({
     ) : (
       <InputBox>
         <Input
-          placeholder="email"
+          placeholder="Email"
           name="email"
           type="email"
           allowClear
@@ -109,14 +111,14 @@ const InputSection: React.FC<InputSectionProps> = ({
           autoComplete="false"
         />
         <Input.Password
-          placeholder="password"
+          placeholder="Password(number,special,case,longer than 8)"
           name="password"
           allowClear
           onChange={handleOnChange}
           value={password}
         />
         <Input.Password
-          placeholder="confirm password"
+          placeholder="Confirm password"
           name="confirmPassword"
           allowClear
           onChange={handleOnChange}
@@ -125,6 +127,10 @@ const InputSection: React.FC<InputSectionProps> = ({
         {confirmPassword.length > 0 && !comparePassword ? (
           <InvalidLabel>
             Incorrect your password. Please compare password.
+          </InvalidLabel>
+        ) : type.indexOf('fail') !== -1 ? (
+          <InvalidLabel>
+            Please check your email(Already signed up) or password.
           </InvalidLabel>
         ) : null}
         <Button

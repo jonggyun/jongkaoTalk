@@ -10,6 +10,7 @@ const USER_REGISTER_FAILURE = 'auth/USER_REGISTER_FAILURE';
 
 // action creator
 export interface AuthState {
+  type: string;
   loading: boolean;
 }
 export const userRegisterRequest = (payload: AuthState) => ({
@@ -37,40 +38,36 @@ export const userRegister = ({
 }) => {
   return async (dispatch: Dispatch) => {
     try {
-      dispatch(userRegisterRequest({ loading: true }));
-      const result = await endpoints.userRegister({
+      dispatch(userRegisterRequest({ type: 'request', loading: true }));
+      await endpoints.userRegister({
         email,
         password,
       });
-      console.log('userRegister', result);
-      dispatch(userRegisterSuccess({ loading: false }));
-    } catch (e) {
-      dispatch(userRegisterFailure({ loading: false }));
+      await dispatch(userRegisterSuccess({ type: 'success', loading: false }));
+    } catch (err) {
+      dispatch(userRegisterFailure({ type: 'fail', loading: false }));
     }
   };
 };
 
 // initialState
 const initialState: AuthState = {
+  type: '',
   loading: true,
 };
 
 // reducer
 interface AuthAction {
   type: string;
-  payload: {
-    loading: boolean;
-  };
+  payload: AuthState;
 }
 const reducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
+    case USER_REGISTER_SUCCESS:
     case USER_REGISTER_FAILURE:
       return produce(state, draft => {
-        draft.loading = action.payload.loading;
-      });
-    case USER_REGISTER_SUCCESS:
-      return produce(state, draft => {
+        draft.type = action.payload.type;
         draft.loading = action.payload.loading;
       });
     default:

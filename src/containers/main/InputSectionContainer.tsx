@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { RootState } from '../../modules/index';
 import { userRegister } from '../../modules/auth';
 
 import InputSection from '../../components/main/InputSection';
 
 interface InputSectionContainer {
+  type: string;
   userRegister: Function;
 }
 const InputSectionContainer: React.FC<InputSectionContainer> = ({
+  type,
   userRegister,
 }) => {
-  const [type, typeState] = useState('login');
+  const [pageType, pageTypeState] = useState('login');
   const [email, emailState] = useState('');
   const [password, passwordState] = useState('');
   const [confirmPassword, confirmPasswordState] = useState('');
   const [comparePassword, comparePasswordState] = useState(false);
 
   const handleType = () => {
-    type === 'login' ? typeState('signup') : typeState('login');
+    pageType === 'login' ? pageTypeState('signup') : pageTypeState('login');
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -36,18 +39,21 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
   };
 
   const handleOnSubmit = () => {
-    console.log(type, email, password);
-    type === 'login' ? console.log('login') : userRegister({ email, password });
+    pageType === 'login'
+      ? console.log('login')
+      : userRegister({ email, password });
   };
 
   useEffect(() => {
     emailState('');
     passwordState('');
     confirmPasswordState('');
-  }, [type]);
+  }, [pageType]);
+
   return (
     <InputSection
       type={type}
+      pageType={pageType}
       handleType={handleType}
       handleOnChange={handleOnChange}
       handleOnSubmit={handleOnSubmit}
@@ -60,7 +66,9 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
 };
 
 export default connect(
-  null,
+  (state: RootState, ownProps) => ({
+    type: state.auth.type,
+  }),
   {
     userRegister,
   }
