@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Upload, Icon } from 'antd';
+import { Input, Button } from 'antd';
 import styled from 'styled-components';
 
 const WrapSection = styled.section`
@@ -15,19 +15,14 @@ const Title = styled.h1`
   font-weight: 800;
 `;
 
-const InputBox = styled.div<{ comparePassword: boolean }>`
+const InputBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   & > span:nth-child(1),
   & > span:nth-child(2),
-  & > span:nth-child(3),
-  & > span:nth-child(4) {
+  & > span:nth-child(3) {
     margin-bottom: 1.25rem;
   }
-  /* & > span:nth-child(4) {
-    margin-bottom: ${({ comparePassword }) =>
-      comparePassword ? '1.25rem' : '0.25rem'};
-  } */
   display: flex;
   flex-direction: column;
 `;
@@ -43,10 +38,6 @@ const TypeStatement = styled.div`
   }
 `;
 
-const EmptySpace = styled.div`
-  height: 1.5625rem;
-`;
-
 const InvalidLabel = styled.span`
   font-size: 12px;
   color: #e84118;
@@ -55,8 +46,7 @@ const InvalidLabel = styled.span`
 
 interface InputSectionProps {
   type: string;
-  username: string;
-  nickname: string;
+  email: string;
   password: string;
   confirmPassword: string;
   comparePassword: boolean;
@@ -70,8 +60,7 @@ const InputSection: React.FC<InputSectionProps> = ({
   handleType,
   handleOnChange,
   handleOnSubmit,
-  username,
-  nickname,
+  email,
   password,
   confirmPassword,
   comparePassword,
@@ -79,13 +68,14 @@ const InputSection: React.FC<InputSectionProps> = ({
   <WrapSection>
     <Title>{type === 'login' ? 'Log In' : 'Sign Up'}</Title>
     {type === 'login' ? (
-      <InputBox comparePassword={comparePassword}>
+      <InputBox>
         <Input
-          placeholder="username"
+          placeholder="email"
           allowClear
+          type="email"
           onChange={handleOnChange}
-          name="username"
-          value={username}
+          name="email"
+          value={email}
           autoComplete="false"
         />
         <Input.Password
@@ -99,7 +89,7 @@ const InputSection: React.FC<InputSectionProps> = ({
           type="primary"
           block
           onClick={handleOnSubmit}
-          disabled={!(username && password)}
+          disabled={!(email && password)}
         >
           Log In
         </Button>
@@ -108,21 +98,14 @@ const InputSection: React.FC<InputSectionProps> = ({
         </TypeStatement>
       </InputBox>
     ) : (
-      <InputBox comparePassword={comparePassword}>
+      <InputBox>
         <Input
-          placeholder="username"
-          name="username"
+          placeholder="email"
+          name="email"
+          type="email"
           allowClear
           onChange={handleOnChange}
-          value={username}
-          autoComplete="false"
-        />
-        <Input
-          placeholder="nickname"
-          name="nickname"
-          allowClear
-          onChange={handleOnChange}
-          value={nickname}
+          value={email}
           autoComplete="false"
         />
         <Input.Password
@@ -144,18 +127,11 @@ const InputSection: React.FC<InputSectionProps> = ({
             Incorrect your password. Please compare password.
           </InvalidLabel>
         ) : null}
-        <Upload>
-          <Button>
-            <Icon type="upload" />
-            Upload Profile Image(not required)
-          </Button>
-        </Upload>
-        <EmptySpace />
         <Button
           type="primary"
           block
           onClick={handleOnSubmit}
-          disabled={!(username && nickname && password && comparePassword)}
+          disabled={!(email && password && comparePassword)}
         >
           Sign Up
         </Button>

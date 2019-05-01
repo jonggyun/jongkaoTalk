@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { RootState } from '../../modules';
 import { userRegister } from '../../modules/auth';
 
 import InputSection from '../../components/main/InputSection';
@@ -12,8 +11,7 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
   userRegister,
 }) => {
   const [type, typeState] = useState('login');
-  const [username, usernameState] = useState('');
-  const [nickname, nicknameState] = useState('');
+  const [email, emailState] = useState('');
   const [password, passwordState] = useState('');
   const [confirmPassword, confirmPasswordState] = useState('');
   const [comparePassword, comparePasswordState] = useState(false);
@@ -24,10 +22,8 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
-    name === 'username'
-      ? usernameState(value)
-      : name === 'nickname'
-      ? nicknameState(value)
+    name === 'email'
+      ? emailState(value)
       : name === 'password'
       ? passwordState(value)
       : confirmPasswordState(value);
@@ -40,15 +36,12 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
   };
 
   const handleOnSubmit = () => {
-    console.log(type, username, nickname, password);
-    type === 'login'
-      ? console.log('login')
-      : userRegister({ username, nickname, password });
+    console.log(type, email, password);
+    type === 'login' ? console.log('login') : userRegister({ email, password });
   };
 
   useEffect(() => {
-    usernameState('');
-    nicknameState('');
+    emailState('');
     passwordState('');
     confirmPasswordState('');
   }, [type]);
@@ -58,8 +51,7 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
       handleType={handleType}
       handleOnChange={handleOnChange}
       handleOnSubmit={handleOnSubmit}
-      username={username}
-      nickname={nickname}
+      email={email}
       password={password}
       confirmPassword={confirmPassword}
       comparePassword={comparePassword}

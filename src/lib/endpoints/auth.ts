@@ -1,33 +1,15 @@
-import { firebaseDB } from '../firebase';
-import CryptoJS from 'crypto-js';
-import { KEY } from '../../constant';
+import { createUser } from '../firebase';
 
-const userRegister = async ({
-  username,
-  nickname,
-  password,
-}: {
-  username: string;
-  nickname: string;
+interface UserRegisterProps {
+  email: string;
   password: string;
-}) => {
+}
+
+const userRegister = async ({ email, password }: UserRegisterProps) => {
   try {
-    // const bytes = CryptoJS.AES.decrypt(
-    //   mypassword.toString(),
-    //   KEY.CRYPTO_MY_SECRET_KEY
-    // );
-    // const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
-    // console.log('decrypto', decryptedData);
-    firebaseDB.ref(`account/${username}`).set({
-      username,
-      nickname,
-      password: CryptoJS.AES.encrypt(
-        password,
-        KEY.CRYPTO_MY_SECRET_KEY
-      ).toString(),
-    });
+    createUser({ email, password });
   } catch (e) {
-    console.log('error');
+    console.log('error: userRegister');
     throw new Error(e);
   }
 };

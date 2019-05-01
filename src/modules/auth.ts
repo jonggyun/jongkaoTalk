@@ -29,18 +29,20 @@ export const userRegisterFailure = (payload: AuthState) => ({
 
 // api actions
 export const userRegister = ({
-  username,
-  nickname,
+  email,
   password,
 }: {
-  username: string;
-  nickname: string;
+  email: string;
   password: string;
 }) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(userRegisterRequest({ loading: true }));
-      await endpoints.userRegister({ username, nickname, password });
+      const result = await endpoints.userRegister({
+        email,
+        password,
+      });
+      console.log('userRegister', result);
       dispatch(userRegisterSuccess({ loading: false }));
     } catch (e) {
       dispatch(userRegisterFailure({ loading: false }));
