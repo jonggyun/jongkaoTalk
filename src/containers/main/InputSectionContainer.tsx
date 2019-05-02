@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../modules/index';
-import { userRegister } from '../../modules/auth';
+import { userRegister, userLogin } from '../../modules/auth';
 
 import endpoints from '../../lib/endpoints/auth';
 
@@ -10,10 +10,12 @@ import InputSection from '../../components/main/InputSection';
 interface InputSectionContainer {
   type: string;
   userRegister: Function;
+  userLogin: Function;
 }
 const InputSectionContainer: React.FC<InputSectionContainer> = ({
   type,
   userRegister,
+  userLogin,
 }) => {
   const [pageType, pageTypeState] = useState('login');
   const [email, emailState] = useState('');
@@ -42,7 +44,7 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
 
   const handleOnSubmit = () => {
     pageType === 'login'
-      ? console.log('login')
+      ? userLogin({ email, password })
       : userRegister({ email, password });
   };
 
@@ -77,5 +79,6 @@ export default connect(
   }),
   {
     userRegister,
+    userLogin,
   }
 )(InputSectionContainer);

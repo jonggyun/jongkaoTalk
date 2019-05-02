@@ -58,3 +58,18 @@ export const signUp = async ({
       throw new Error(err);
     });
 };
+
+export const login = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  await firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch(err => {
+      throw new Error(err);
+    });
+};
