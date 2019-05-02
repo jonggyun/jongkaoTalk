@@ -19,16 +19,18 @@ export const googleAuth = () => {
   googleAuthProvider.addScope(
     'https://www.googleapis.com/auth/contacts.readonly'
   );
+  firebase.auth().signInWithRedirect(googleAuthProvider);
   firebase
     .auth()
-    .signInWithPopup(googleAuthProvider)
+    .getRedirectResult()
     .then((result: any) => {
-      // 찾아보기
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const token = result.credential.accessToken;
+      if (result.credential) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const token = result.credential.accessToken;
+        // ...
+      }
       // The signed-in user info.
       const user = result.user;
-      console.log('success', token, user);
     })
     .catch(error => {
       // Handle Errors here.
@@ -39,7 +41,6 @@ export const googleAuth = () => {
       // The firebase.auth.AuthCredential type that was used.
       const credential = error.credential;
       // ...
-      console.log('error', errorCode, errorMessage, email, credential);
     });
 };
 
