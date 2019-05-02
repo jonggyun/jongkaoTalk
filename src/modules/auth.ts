@@ -2,6 +2,7 @@
 import { Dispatch } from 'redux';
 import produce from 'immer';
 import endpoints from '../lib/endpoints/auth';
+import { toastr } from 'react-redux-toastr';
 
 // actions
 const USER_REGISTER_REQUEST = 'auth/USER_REGISTER_REQUEST';
@@ -63,9 +64,11 @@ export const userRegister = ({
         password,
       });
       await dispatch(userRegisterSuccess({ type: 'success', loading: false }));
+      toastr.success('Success', 'Sign up success');
     } catch (err) {
       console.log('userRegister err:', err);
       dispatch(userRegisterFailure({ type: 'fail', loading: false }));
+      toastr.error('Error', 'Sign up failed.');
     }
   };
 };
@@ -85,10 +88,11 @@ export const userLogin = ({
         password,
       });
       await dispatch(userLoginSuccess({ type: 'success', loading: false }));
-      console.log('success');
+      toastr.success('Success', 'Login success.');
     } catch (err) {
       console.log('userLogin err:', err);
       dispatch(userLoginFailure({ type: 'fail', loading: false }));
+      toastr.error('Error', 'Login failed.');
     }
   };
 };
