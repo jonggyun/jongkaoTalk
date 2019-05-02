@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { RootState } from '../../modules/index';
 import { userRegister } from '../../modules/auth';
 
+import endpoints from '../../lib/endpoints/auth';
+
 import InputSection from '../../components/main/InputSection';
 
 interface InputSectionContainer {
@@ -44,6 +46,9 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
       : userRegister({ email, password });
   };
 
+  const handleGoogleLogin = () => {
+    endpoints.googleLogin();
+  };
   useEffect(() => {
     emailState('');
     passwordState('');
@@ -57,6 +62,7 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
       handleType={handleType}
       handleOnChange={handleOnChange}
       handleOnSubmit={handleOnSubmit}
+      handleGoogleLogin={handleGoogleLogin}
       email={email}
       password={password}
       confirmPassword={confirmPassword}

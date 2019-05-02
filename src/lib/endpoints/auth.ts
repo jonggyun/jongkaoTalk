@@ -1,4 +1,4 @@
-import { signUp } from '../firebase';
+import { signUp, googleAuth } from '../firebase';
 
 interface UserRegisterProps {
   email: string;
@@ -11,13 +11,8 @@ const userRegister = async ({ email, password }: UserRegisterProps) => {
     // 비밀번호 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
     const passwordRegex = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/;
 
-    if (!email.match(emailRegex)) {
-      throw new Error('email error');
-    }
-
-    if (!password.match(passwordRegex)) {
-      throw new Error('password error');
-    }
+    if (!email.match(emailRegex)) throw new Error('email error');
+    if (!password.match(passwordRegex)) throw new Error('password error');
 
     await signUp({ email, password });
   } catch (err) {
@@ -25,8 +20,13 @@ const userRegister = async ({ email, password }: UserRegisterProps) => {
   }
 };
 
+const googleLogin = () => {
+  googleAuth();
+};
+
 const endpoints = {
   userRegister,
+  googleLogin,
 };
 
 export default endpoints;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button } from 'antd';
+import { Input, Button, Icon } from 'antd';
 import styled from 'styled-components';
 
 const WrapSection = styled.section`
@@ -44,6 +44,27 @@ const InvalidLabel = styled.span`
   margin-top: -1.0625rem;
 `;
 
+const BroderLine = styled.hr`
+  width: 100%;
+  border: 1px solid #dcdde1;
+`;
+
+const GoogleButton = styled.div`
+  height: 2rem;
+  background-color: #de4a39;
+  border-radius: 0.3125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  & > span:last-child {
+    margin-left: 0.625rem;
+    color: #fff;
+    font-size: 1rem;
+  }
+`;
+
 interface InputSectionProps {
   type: string;
   pageType: string;
@@ -54,6 +75,7 @@ interface InputSectionProps {
   handleType: () => void;
   handleOnChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handleOnSubmit: () => void;
+  handleGoogleLogin: () => void;
 }
 
 const InputSection: React.FC<InputSectionProps> = ({
@@ -62,6 +84,7 @@ const InputSection: React.FC<InputSectionProps> = ({
   handleType,
   handleOnChange,
   handleOnSubmit,
+  handleGoogleLogin,
   email,
   password,
   confirmPassword,
@@ -98,6 +121,11 @@ const InputSection: React.FC<InputSectionProps> = ({
         <TypeStatement>
           <span onClick={handleType}>Sign Up</span>
         </TypeStatement>
+        <BroderLine />
+        <GoogleButton onClick={handleGoogleLogin}>
+          <Icon type="google" style={{ fontSize: '1.25rem', color: '#fff' }} />
+          <span>Log in with Google</span>
+        </GoogleButton>
       </InputBox>
     ) : (
       <InputBox>
