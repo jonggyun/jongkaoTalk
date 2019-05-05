@@ -14,36 +14,43 @@ const USER_LOGIN_SUCCESS = 'auth/USER_LOGIN_SUCCESS';
 const USER_LOGIN_FAILURE = 'auth/USER_LOGIN_FAILURE';
 
 // action creator
-export interface AuthState {
+interface ReigsterState {
   type: string;
   loading: boolean;
 }
-export const userRegisterRequest = (payload: AuthState) => ({
+
+interface LoginState {
+  type: string;
+  loading: boolean;
+  isLoggedIn: boolean;
+}
+
+export const userRegisterRequest = (payload: ReigsterState) => ({
   type: USER_REGISTER_REQUEST,
   payload,
 });
 
-export const userRegisterSuccess = (payload: AuthState) => ({
+export const userRegisterSuccess = (payload: ReigsterState) => ({
   type: USER_REGISTER_SUCCESS,
   payload,
 });
 
-export const userRegisterFailure = (payload: AuthState) => ({
+export const userRegisterFailure = (payload: ReigsterState) => ({
   type: USER_REGISTER_FAILURE,
   payload,
 });
 
-export const userLoginRequest = (payload: any) => ({
+export const userLoginRequest = (payload: LoginState) => ({
   type: USER_LOGIN_REQUEST,
   payload,
 });
 
-export const userLoginSuccess = (payload: any) => ({
+export const userLoginSuccess = (payload: LoginState) => ({
   type: USER_LOGIN_SUCCESS,
   payload,
 });
 
-export const userLoginFailure = (payload: any) => ({
+export const userLoginFailure = (payload: LoginState) => ({
   type: USER_LOGIN_FAILURE,
   payload,
 });
@@ -82,44 +89,75 @@ export const userLogin = ({
 }) => {
   return async (dispatch: Dispatch) => {
     try {
-      dispatch(userLoginRequest({ type: 'request', loading: false }));
+      dispatch(
+        userLoginRequest({ type: 'request', loading: false, isLoggedIn: false })
+      );
       await endpoints.userLogin({
         email,
         password,
       });
-      await dispatch(userLoginSuccess({ type: 'success', loading: false }));
+      await dispatch(
+        userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true })
+      );
       toastr.success('Success', 'Login success.');
     } catch (err) {
       console.log('userLogin err:', err);
-      dispatch(userLoginFailure({ type: 'fail', loading: false }));
+      dispatch(
+        userLoginFailure({ type: 'fail', loading: false, isLoggedIn: false })
+      );
       toastr.error('Error', 'Login failed.');
     }
   };
 };
 
 // initialState
+export interface AuthState {
+  type: string;
+  loading: boolean;
+  isLoggedIn: boolean;
+}
 const initialState: AuthState = {
   type: '',
   loading: true,
+  isLoggedIn: false,
 };
 
 // reducer
-interface AuthAction {
-  type: string;
-  payload: AuthState;
+
+interface RegisterAction {
+  type:
+    | typeof USER_REGISTER_SUCCESS
+    | typeof USER_REGISTER_REQUEST
+    | typeof USER_REGISTER_FAILURE;
+  payload: ReigsterState;
 }
+
+interface LoginAction {
+  type:
+    | typeof USER_LOGIN_REQUEST
+    | typeof USER_LOGIN_SUCCESS
+    | typeof USER_LOGIN_FAILURE;
+  payload: LoginState;
+}
+
+export type AuthAction = RegisterAction | LoginAction;
 
 const reducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
     case USER_REGISTER_SUCCESS:
     case USER_REGISTER_FAILURE:
+      return produce(state, draft => {
+        draft.type = action.payload.type;
+        draft.loading = action.payload.loading;
+      });
     case USER_LOGIN_REQUEST:
     case USER_LOGIN_SUCCESS:
     case USER_LOGIN_FAILURE:
       return produce(state, draft => {
         draft.type = action.payload.type;
         draft.loading = action.payload.loading;
+        draft.isLoggedIn = action.payload.isLoggedIn;
       });
     default:
       return state;

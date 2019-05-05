@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../modules/index';
 import { userRegister, userLogin } from '../../modules/auth';
 
@@ -7,16 +8,14 @@ import endpoints from '../../lib/endpoints/auth';
 
 import InputSection from '../../components/main/InputSection';
 
-interface InputSectionContainer {
+interface InputSectionContainerProps {
   type: string;
   userRegister: Function;
   userLogin: Function;
 }
-const InputSectionContainer: React.FC<InputSectionContainer> = ({
-  type,
-  userRegister,
-  userLogin,
-}) => {
+const InputSectionContainer: React.FC<
+  RouteComponentProps<{}> & InputSectionContainerProps
+> = ({ type, userRegister, userLogin }) => {
   const [pageType, pageTypeState] = useState('login');
   const [email, emailState] = useState('');
   const [password, passwordState] = useState('');
@@ -51,6 +50,7 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
   const handleGoogleLogin = () => {
     endpoints.googleLogin();
   };
+
   useEffect(() => {
     emailState('');
     passwordState('');
@@ -73,12 +73,14 @@ const InputSectionContainer: React.FC<InputSectionContainer> = ({
   );
 };
 
-export default connect(
-  (state: RootState, ownProps) => ({
-    type: state.auth.type,
-  }),
-  {
-    userRegister,
-    userLogin,
-  }
-)(InputSectionContainer);
+export default withRouter(
+  connect(
+    (state: RootState, ownProps) => ({
+      type: state.auth.type,
+    }),
+    {
+      userRegister,
+      userLogin,
+    }
+  )(InputSectionContainer)
+);
