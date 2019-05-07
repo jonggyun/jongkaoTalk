@@ -13,6 +13,10 @@ const USER_LOGIN_REQUEST = 'auth/USER_LOGIN_REQUEST';
 const USER_LOGIN_SUCCESS = 'auth/USER_LOGIN_SUCCESS';
 const USER_LOGIN_FAILURE = 'auth/USER_LOGIN_FAILURE';
 
+const USER_OAUTH_REQUEST = 'auth/USER_OAUTH_REQUEST';
+const USER_OAUTH_SUCCESS = 'auth/USER_OAUTH_SUCCESS';
+const USER_OAUTH_FAILURE = 'auth/USER_OAUTH_FAILURE';
+
 // action creator
 interface ReigsterState {
   type: string;
@@ -52,6 +56,21 @@ export const userLoginSuccess = (payload: LoginState) => ({
 
 export const userLoginFailure = (payload: LoginState) => ({
   type: USER_LOGIN_FAILURE,
+  payload,
+});
+
+export const userOauthRequest = (payload: LoginState) => ({
+  type: USER_OAUTH_REQUEST,
+  payload,
+});
+
+export const userOauthSuccess = (payload: LoginState) => ({
+  type: USER_OAUTH_SUCCESS,
+  payload,
+});
+
+export const userOauthFailure = (payload: LoginState) => ({
+  type: USER_OAUTH_FAILURE,
   payload,
 });
 
@@ -110,6 +129,29 @@ export const userLogin = ({
   };
 };
 
+// 이 부분을 firebase에서 처리하도록 바꾸기.
+export const userOauth = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      console.log('redux userOauth');
+      dispatch(
+        userOauthRequest({ type: 'request', loading: false, isLoggedIn: false })
+      );
+
+      await endpoints.googleLogin();
+
+      await dispatch(
+        userOauthSuccess({ type: 'success', loading: false, isLoggedIn: true })
+      );
+    } catch (err) {
+      console.log('userOauth err:', err);
+      dispatch(
+        userOauthFailure({ type: 'fail', loading: false, isLoggedIn: false })
+      );
+    }
+  };
+};
+
 // initialState
 export interface AuthState {
   type: string;
@@ -119,7 +161,7 @@ export interface AuthState {
 const initialState: AuthState = {
   type: '',
   loading: true,
-  isLoggedIn: false,
+  isLoggedIn: true,
 };
 
 // reducer
@@ -136,7 +178,10 @@ interface LoginAction {
   type:
     | typeof USER_LOGIN_REQUEST
     | typeof USER_LOGIN_SUCCESS
-    | typeof USER_LOGIN_FAILURE;
+    | typeof USER_LOGIN_FAILURE
+    | typeof USER_OAUTH_REQUEST
+    | typeof USER_OAUTH_SUCCESS
+    | typeof USER_OAUTH_FAILURE;
   payload: LoginState;
 }
 
@@ -154,6 +199,9 @@ const reducer = (state = initialState, action: AuthAction) => {
     case USER_LOGIN_REQUEST:
     case USER_LOGIN_SUCCESS:
     case USER_LOGIN_FAILURE:
+    case USER_OAUTH_REQUEST:
+    case USER_OAUTH_SUCCESS:
+    case USER_OAUTH_FAILURE:
       return produce(state, draft => {
         draft.type = action.payload.type;
         draft.loading = action.payload.loading;

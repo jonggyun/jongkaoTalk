@@ -39,7 +39,6 @@ ReactDOM.render(
       progressBar
       closeOnToastrClick
     />
-    ,
   </Provider>,
   document.getElementById('root')
 );

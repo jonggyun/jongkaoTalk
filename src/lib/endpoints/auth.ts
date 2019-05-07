@@ -1,4 +1,4 @@
-import { signUp, login, googleAuth } from '../firebase';
+import { signUp, login, logout, googleAuth } from '../firebase';
 
 interface UserInfoProps {
   email: string;
@@ -29,13 +29,20 @@ const userLogin = async ({ email, password }: UserInfoProps) => {
 };
 
 const googleLogin = () => {
+  console.log('googleLogin');
   googleAuth();
+};
+
+const googleLogout = () => {
+  console.log('logout');
+  logout();
 };
 
 const endpoints = {
   userRegister,
   userLogin,
   googleLogin,
+  googleLogout,
 };
 
 export default endpoints;

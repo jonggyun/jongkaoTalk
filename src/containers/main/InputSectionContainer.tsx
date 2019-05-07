@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../../modules/index';
-import { userRegister, userLogin } from '../../modules/auth';
-
-import endpoints from '../../lib/endpoints/auth';
+import { userRegister, userLogin, userOauth } from '../../modules/auth';
 
 import InputSection from '../../components/main/InputSection';
 
@@ -12,10 +10,11 @@ interface InputSectionContainerProps {
   type: string;
   userRegister: Function;
   userLogin: Function;
+  userOauth: Function;
 }
 const InputSectionContainer: React.FC<
   RouteComponentProps<{}> & InputSectionContainerProps
-> = ({ type, userRegister, userLogin }) => {
+> = ({ type, userRegister, userLogin, userOauth }) => {
   const [pageType, pageTypeState] = useState('login');
   const [email, emailState] = useState('');
   const [password, passwordState] = useState('');
@@ -48,7 +47,8 @@ const InputSectionContainer: React.FC<
   };
 
   const handleGoogleLogin = () => {
-    endpoints.googleLogin();
+    console.log('hadleGoogleLogin');
+    userOauth();
   };
 
   useEffect(() => {
@@ -81,6 +81,7 @@ export default withRouter(
     {
       userRegister,
       userLogin,
+      userOauth,
     }
   )(InputSectionContainer)
 );
