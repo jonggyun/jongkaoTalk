@@ -4,6 +4,7 @@ import { Icon } from 'antd';
 
 import MyProfile from './MyProfile';
 import Friends from './Friends';
+import Chats from './Chats';
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,7 +66,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ handleLeftType, type }) => (
         <MyProfile />
         <Friends />
       </React.Fragment>
-    ) : null}
+    ) : (
+      <Chats />
+    )}
     <Footer>
       <span data-type="friend" onClick={handleLeftType}>
         <Icon style={{ fontSize: '22px' }} type="user" />

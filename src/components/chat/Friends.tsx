@@ -17,7 +17,7 @@ const FriendsWrapper = styled.div``;
 const FriendInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
   span {
     padding-left: 0.875rem;
     font-size: 1.125rem;
