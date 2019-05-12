@@ -6,6 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import MainPage from './pages/MainPage';
 import ChatPage from './pages/ChatPage';
+import ProfileSetting from './pages/ProfileSettingPage';
 
 interface AppProps {
   isLoggedIn: boolean;
@@ -23,6 +24,7 @@ const PublicRoute = () => (
 const PrivateRoute = () => (
   <React.Fragment>
     <Route exact path="/" component={ChatPage} />
+    <Route exact path="/setting" component={ProfileSetting} />
   </React.Fragment>
 );
 
