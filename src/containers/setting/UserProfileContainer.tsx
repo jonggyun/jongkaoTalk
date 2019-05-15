@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { userProfileRegister } from '../../modules/auth';
 import UserProfile from '../../components/setting/UserProfile';
 
-import endpoints from '../../lib/endpoints/auth';
-
-interface UserProfileContainerProps {}
-const UserProfileContainer: React.FC<UserProfileContainerProps> = () => {
+interface UserProfileContainerProps {
+  userProfileRegister: Function;
+}
+const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
+  userProfileRegister,
+}) => {
   const [username, setUsername] = useState('');
   const [description, setDescription] = useState('');
 
@@ -14,8 +18,7 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = () => {
   };
 
   const handleOnSubmit = () => {
-    console.log('submit', username, description);
-    endpoints.userProfileRegister({ username, description });
+    userProfileRegister({ username, description });
   };
 
   return (
@@ -28,4 +31,9 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = () => {
   );
 };
 
-export default UserProfileContainer;
+export default connect(
+  null,
+  {
+    userProfileRegister,
+  }
+)(UserProfileContainer);

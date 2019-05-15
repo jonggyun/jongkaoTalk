@@ -178,6 +178,30 @@ export const userOauth = () => {
   };
 };
 
+export const userProfileRegister = ({
+  username,
+  description,
+}: {
+  username: string;
+  description: string;
+}) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch(userProfileRegisterRegister({ type: 'request', loading: true }));
+
+      await endpoints.userProfileRegister({ username, description });
+
+      await dispatch(
+        userProfileRegisterSuccess({ type: 'success', loading: false })
+      );
+    } catch (err) {
+      console.log('userProfileRegister err:', err);
+      dispatch(userProfileRegisterFailure({ type: 'fail', laoding: false }));
+      toastr.error('Error', 'Register is failed.');
+    }
+  };
+};
+
 // initialState
 export interface AuthState {
   type: string;
