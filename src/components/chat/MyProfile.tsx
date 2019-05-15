@@ -29,7 +29,7 @@ const ProfileInfo = styled.div`
 `;
 
 interface MyProfileProps {}
-const MyProfile: React.FC<MyProfileProps> = ({}) => (
+const MyProfile: React.FC<MyProfileProps> = () => (
   <Wrapper>
     <ProfileImage />
     <ProfileInfo>

@@ -13,6 +13,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const firebaseDB = firebase.database();
+export const firestoreDB = firebase.firestore();
 
 export const googleAuth = () => {
   const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
@@ -87,4 +88,21 @@ export const logout = () => {
     .catch(err => {
       console.log('err', err);
     });
+};
+
+export const profileRegister = ({
+  uid,
+  username,
+  description,
+}: {
+  uid: string;
+  username: string;
+  description: string;
+}) => {
+  console.log('regester', uid, username, description);
+  firestoreDB
+    .collection('users')
+    .doc(uid)
+    .set({ username, description })
+    .catch(err => console.log('failure', err));
 };

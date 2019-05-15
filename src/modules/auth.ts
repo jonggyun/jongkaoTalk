@@ -17,6 +17,10 @@ const USER_OAUTH_REQUEST = 'auth/USER_OAUTH_REQUEST';
 const USER_OAUTH_SUCCESS = 'auth/USER_OAUTH_SUCCESS';
 const USER_OAUTH_FAILURE = 'auth/USER_OAUTH_FAILURE';
 
+const USER_PROFILE_REGISTER_REQUEST = 'auth/USER_PROFILE_REGISTER_REQUEST';
+const USER_PROFILE_REGISTER_SUCCESS = 'auth/USER_PROFILE_REGISTER_SUCCESS';
+const USER_PROFILE_REGISTER_FAILURE = 'auth/USER_PROFILE_REGISTER_FAILURE';
+
 // action creator
 interface ReigsterState {
   type: string;
@@ -27,6 +31,13 @@ interface LoginState {
   type: string;
   loading: boolean;
   isLoggedIn: boolean;
+}
+
+interface ProfileState {
+  type: string;
+  loading: boolean;
+  username: string;
+  description: string;
 }
 
 export const userRegisterRequest = (payload: ReigsterState) => ({
@@ -71,6 +82,21 @@ export const userOauthSuccess = (payload: LoginState) => ({
 
 export const userOauthFailure = (payload: LoginState) => ({
   type: USER_OAUTH_FAILURE,
+  payload,
+});
+
+export const userProfileRegisterRegister = (payload: any) => ({
+  type: USER_PROFILE_REGISTER_REQUEST,
+  payload,
+});
+
+export const userProfileRegisterSuccess = (payload: any) => ({
+  type: USER_PROFILE_REGISTER_SUCCESS,
+  payload,
+});
+
+export const userProfileRegisterFailure = (payload: any) => ({
+  type: USER_PROFILE_REGISTER_FAILURE,
   payload,
 });
 
@@ -185,7 +211,15 @@ interface LoginAction {
   payload: LoginState;
 }
 
-export type AuthAction = RegisterAction | LoginAction;
+interface ProfileAction {
+  type:
+    | typeof USER_PROFILE_REGISTER_REQUEST
+    | typeof USER_PROFILE_REGISTER_SUCCESS
+    | typeof USER_PROFILE_REGISTER_FAILURE;
+  payload: ProfileState;
+}
+
+export type AuthAction = RegisterAction | LoginAction | ProfileAction;
 
 const reducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
@@ -206,6 +240,13 @@ const reducer = (state = initialState, action: AuthAction) => {
         draft.type = action.payload.type;
         draft.loading = action.payload.loading;
         draft.isLoggedIn = action.payload.isLoggedIn;
+      });
+    case USER_PROFILE_REGISTER_REQUEST:
+    case USER_PROFILE_REGISTER_SUCCESS:
+    case USER_PROFILE_REGISTER_FAILURE:
+      return produce(state, draft => {
+        draft.type = action.payload.type;
+        draft.loading = action.payload.loading;
       });
     default:
       return state;

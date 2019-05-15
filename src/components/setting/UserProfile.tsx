@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Input, Upload, Icon, message, Button } from 'antd';
+import { Input, Upload, Icon, Button } from 'antd';
 
 const Wrapper = styled.section`
   height: 100vh;
@@ -29,8 +29,18 @@ const InputWrapper = styled.div`
   justify-content: space-around;
 `;
 
-interface UserProfileProps {}
-const UserProfile: React.FC<UserProfileProps> = () => {
+interface UserProfileProps {
+  username: string;
+  description: string;
+  handleOnChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  handleOnSubmit: () => void;
+}
+const UserProfile: React.FC<UserProfileProps> = ({
+  username,
+  description,
+  handleOnChange,
+  handleOnSubmit,
+}) => {
   const uploadButton = (
     <div>
       <Icon type="plus" />
@@ -55,11 +65,21 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
           </Upload>
           <InputWrapper>
-            <Input placeholder="Username" />
-            <Input placeholder="Description" />
+            <Input
+              placeholder="Username"
+              name="username"
+              value={username}
+              onChange={handleOnChange}
+            />
+            <Input
+              placeholder="Description"
+              name="description"
+              value={description}
+              onChange={handleOnChange}
+            />
           </InputWrapper>
         </Upper>
-        <Button type="primary" block>
+        <Button type="primary" block onClick={handleOnSubmit}>
           Submit
         </Button>
       </ProfileInfo>

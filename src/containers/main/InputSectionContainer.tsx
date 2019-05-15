@@ -15,28 +15,26 @@ interface InputSectionContainerProps {
 const InputSectionContainer: React.FC<
   RouteComponentProps<{}> & InputSectionContainerProps
 > = ({ type, userRegister, userLogin, userOauth }) => {
-  const [pageType, pageTypeState] = useState('login');
-  const [email, emailState] = useState('');
-  const [password, passwordState] = useState('');
-  const [confirmPassword, confirmPasswordState] = useState('');
-  const [comparePassword, comparePasswordState] = useState(false);
+  const [pageType, setPageType] = useState('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [comparePassword, setComparePassword] = useState(false);
 
   const handleType = () => {
-    pageType === 'login' ? pageTypeState('signup') : pageTypeState('login');
+    pageType === 'login' ? setPageType('signup') : setPageType('login');
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     name === 'email'
-      ? emailState(value)
+      ? setEmail(value)
       : name === 'password'
-      ? passwordState(value)
-      : confirmPasswordState(value);
+      ? setPassword(value)
+      : setConfirmPassword(value);
 
     if (name === 'confirmPassword') {
-      password === value
-        ? comparePasswordState(true)
-        : comparePasswordState(false);
+      password === value ? setComparePassword(true) : setComparePassword(false);
     }
   };
 
@@ -52,9 +50,9 @@ const InputSectionContainer: React.FC<
   };
 
   useEffect(() => {
-    emailState('');
-    passwordState('');
-    confirmPasswordState('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
   }, [pageType]);
 
   return (

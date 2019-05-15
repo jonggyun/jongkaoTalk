@@ -1,10 +1,15 @@
-import { signUp, login, logout, googleAuth } from '../firebase';
+import {
+  signUp,
+  login,
+  logout,
+  googleAuth,
+  profileRegister,
+} from '../firebase';
 
 interface UserInfoProps {
   email: string;
   password: string;
 }
-
 const userRegister = async ({ email, password }: UserInfoProps) => {
   try {
     const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -15,6 +20,26 @@ const userRegister = async ({ email, password }: UserInfoProps) => {
     if (!password.match(passwordRegex)) throw new Error('password error');
 
     await signUp({ email, password });
+  } catch (err) {
+    throw new Error(`Error!!: ${err}`);
+  }
+};
+
+interface UserProfileProps {
+  username: string;
+  description: string;
+}
+const userProfileRegister = async ({
+  username,
+  description,
+}: UserProfileProps) => {
+  try {
+    const uid = 'ESwNiXU0ukUssMg0FKSR3sXPw3y2';
+    await profileRegister({
+      uid,
+      username,
+      description,
+    });
   } catch (err) {
     throw new Error(`Error!!: ${err}`);
   }
@@ -40,6 +65,7 @@ const googleLogout = () => {
 
 const endpoints = {
   userRegister,
+  userProfileRegister,
   userLogin,
   googleLogin,
   googleLogout,
