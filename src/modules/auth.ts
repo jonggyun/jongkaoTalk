@@ -36,8 +36,6 @@ interface LoginState {
 interface ProfileState {
   type: string;
   loading: boolean;
-  username: string;
-  description: string;
 }
 
 export const userRegisterRequest = (payload: ReigsterState) => ({
@@ -85,17 +83,17 @@ export const userOauthFailure = (payload: LoginState) => ({
   payload,
 });
 
-export const userProfileRegisterRegister = (payload: any) => ({
+export const userProfileRegisterRegister = (payload: ProfileState) => ({
   type: USER_PROFILE_REGISTER_REQUEST,
   payload,
 });
 
-export const userProfileRegisterSuccess = (payload: any) => ({
+export const userProfileRegisterSuccess = (payload: ProfileState) => ({
   type: USER_PROFILE_REGISTER_SUCCESS,
   payload,
 });
 
-export const userProfileRegisterFailure = (payload: any) => ({
+export const userProfileRegisterFailure = (payload: ProfileState) => ({
   type: USER_PROFILE_REGISTER_FAILURE,
   payload,
 });
@@ -196,7 +194,7 @@ export const userProfileRegister = ({
       );
     } catch (err) {
       console.log('userProfileRegister err:', err);
-      dispatch(userProfileRegisterFailure({ type: 'fail', laoding: false }));
+      dispatch(userProfileRegisterFailure({ type: 'fail', loading: false }));
       toastr.error('Error', 'Register is failed.');
     }
   };

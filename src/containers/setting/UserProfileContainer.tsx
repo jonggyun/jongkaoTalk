@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 import { userProfileRegister } from '../../modules/auth';
 import UserProfile from '../../components/setting/UserProfile';
 
+interface ProfileProps {
+  username: string;
+  description: string;
+}
 interface UserProfileContainerProps {
-  userProfileRegister: Function;
+  userProfileRegister: ({ username, description }: ProfileProps) => void;
 }
 const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
   userProfileRegister,

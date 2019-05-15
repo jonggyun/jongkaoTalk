@@ -6,11 +6,15 @@ import { userRegister, userLogin, userOauth } from '../../modules/auth';
 
 import InputSection from '../../components/main/InputSection';
 
+interface RegisterProps {
+  email: string;
+  password: string;
+}
 interface InputSectionContainerProps {
   type: string;
-  userRegister: Function;
-  userLogin: Function;
-  userOauth: Function;
+  userRegister: ({ email, password }: RegisterProps) => void;
+  userLogin: ({ email, password }: RegisterProps) => void;
+  userOauth: () => void;
 }
 const InputSectionContainer: React.FC<
   RouteComponentProps<{}> & InputSectionContainerProps
