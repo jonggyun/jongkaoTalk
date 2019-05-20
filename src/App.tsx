@@ -23,8 +23,8 @@ const PublicRoute = () => (
 
 const PrivateRoute = () => (
   <React.Fragment>
-    <Route exact path="/" component={ChatPage} />
-    <Route exact path="/setting" component={ProfileSetting} />
+    {/* <Route exact path="/" component={ChatPage} /> */}
+    <Route exact path="/" component={ProfileSetting} />
   </React.Fragment>
 );
 

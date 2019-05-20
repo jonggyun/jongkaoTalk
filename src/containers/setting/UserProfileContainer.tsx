@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { userProfileRegister } from '../../modules/auth';
+import { RootState } from '../../modules/index';
 import UserProfile from '../../components/setting/UserProfile';
 
 // import { storageRef } from '../../lib/firebase';
 
 interface ProfileProps {
+  uid: string;
   username: string;
   description: string;
 }
 interface UserProfileContainerProps {
-  userProfileRegister: ({ username, description }: ProfileProps) => void;
+  userProfileRegister: ({ uid, username, description }: ProfileProps) => void;
+  uid: string;
 }
 const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
   userProfileRegister,
+  uid,
 }) => {
   const [username, setUsername] = useState('');
   const [description, setDescription] = useState('');
@@ -35,6 +39,7 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
   const handleUploadFile = (e: React.FormEvent<HTMLInputElement>) => {
     console.log('event', e.currentTarget.files);
     console.log('event!!', e.currentTarget);
+    console.log('uid', uid);
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -43,7 +48,7 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
   };
 
   const handleOnSubmit = () => {
-    userProfileRegister({ username, description });
+    userProfileRegister({ uid, username, description });
   };
 
   return (
@@ -58,7 +63,9 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
 };
 
 export default connect(
-  null,
+  (state: RootState, ownProps) => ({
+    uid: state.auth.me.uid,
+  }),
   {
     userProfileRegister,
   }

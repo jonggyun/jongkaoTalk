@@ -27,15 +27,16 @@ const userRegister = async ({ email, password }: UserInfoProps) => {
 };
 
 interface UserProfileProps {
+  uid: string;
   username: string;
   description: string;
 }
 const userProfileRegister = async ({
+  uid,
   username,
   description,
 }: UserProfileProps) => {
   try {
-    const uid = 'ESwNiXU0ukUssMg0FKSR3sXPw3y2';
     await profileRegister({
       uid,
       username,

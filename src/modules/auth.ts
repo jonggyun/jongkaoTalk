@@ -195,9 +195,11 @@ export const userOauth = () => {
 };
 
 export const userProfileRegister = ({
+  uid,
   username,
   description,
 }: {
+  uid: string;
   username: string;
   description: string;
 }) => {
@@ -205,7 +207,7 @@ export const userProfileRegister = ({
     try {
       dispatch(userProfileRegisterRegister({ type: 'request', loading: true }));
 
-      await endpoints.userProfileRegister({ username, description });
+      await endpoints.userProfileRegister({ uid, username, description });
 
       await dispatch(
         userProfileRegisterSuccess({ type: 'success', loading: false })
