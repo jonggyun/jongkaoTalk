@@ -14,6 +14,8 @@ firebase.initializeApp(firebaseConfig);
 
 export const firebaseDB = firebase.database();
 export const firestoreDB = firebase.firestore();
+export const storage = firebase.storage();
+export const storageRef = storage.ref();
 
 export const googleAuth = () => {
   const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
@@ -29,22 +31,12 @@ export const googleAuth = () => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const token = result.credential.accessToken;
         console.log('token!!!!!', token);
-        // ...
       }
-      // The signed-in user info.
-      // const user = result.user;
-      console.log('result!!!!!!!', result);
     })
     .catch(error => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // // The email of the user's account used.
-      const email = error.email;
-      // // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
-      // ...
-      console.log('err', errorCode, errorMessage, email, credential);
+      const { code, message, email, credential } = error;
+
+      console.log('err', code, message, email, credential);
     });
 };
 
@@ -90,6 +82,13 @@ export const logout = () => {
     });
 };
 
+export const currentUser = () => {
+  const user = firebase.auth().currentUser;
+  const { uid, email, emailVerified, isAnonymous } = user;
+
+  return { uid, email, emailVerified, isAnonymous };
+};
+
 export const profileRegister = ({
   uid,
   username,
@@ -99,10 +98,34 @@ export const profileRegister = ({
   username: string;
   description: string;
 }) => {
-  console.log('regester', uid, username, description);
-  firestoreDB
-    .collection('users')
-    .doc(uid)
-    .set({ username, description })
-    .catch(err => console.log('failure', err));
+  const user = firebase.auth().currentUser;
+  if (user) {
+    user
+      .updateProfile({
+        displayName: username,
+        // photoURL: 'adress!!!',
+      })
+      .then(() => {
+        // Update successful.
+        firestoreDB
+          .collection('users')
+          .doc(uid)
+          .set({ username, description })
+          .catch(err => console.log('failure', err));
+      })
+      .catch(error => {
+        console.log('err', error);
+      });
+  }
+};
+
+export const uploadProfileImage = ({
+  uid,
+  file,
+}: {
+  uid: string;
+  file: File;
+}) => {
+  console.log('uid', uid);
+  console.log('file', file);
 };

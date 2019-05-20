@@ -21,6 +21,8 @@ const USER_PROFILE_REGISTER_REQUEST = 'auth/USER_PROFILE_REGISTER_REQUEST';
 const USER_PROFILE_REGISTER_SUCCESS = 'auth/USER_PROFILE_REGISTER_SUCCESS';
 const USER_PROFILE_REGISTER_FAILURE = 'auth/USER_PROFILE_REGISTER_FAILURE';
 
+const REQUEST_ME = 'auth/REQUEST_ME';
+
 // action creator
 interface ReigsterState {
   type: string;
@@ -36,6 +38,13 @@ interface LoginState {
 interface ProfileState {
   type: string;
   loading: boolean;
+}
+
+interface MeState {
+  uid: string;
+  email: string;
+  emailVerified: boolean;
+  isAnonymous: boolean;
 }
 
 export const userRegisterRequest = (payload: ReigsterState) => ({
@@ -98,6 +107,11 @@ export const userProfileRegisterFailure = (payload: ProfileState) => ({
   payload,
 });
 
+export const requestMe = (payload: MeState) => ({
+  type: REQUEST_ME,
+  payload,
+});
+
 // api actions
 export const userRegister = ({
   email,
@@ -139,9 +153,13 @@ export const userLogin = ({
         email,
         password,
       });
-      await dispatch(
+
+      const data = await endpoints.getUserInfo();
+      dispatch(requestMe(data));
+      dispatch(
         userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true })
       );
+
       toastr.success('Success', 'Login success.');
     } catch (err) {
       console.log('userLogin err:', err);
@@ -205,15 +223,21 @@ export interface AuthState {
   type: string;
   loading: boolean;
   isLoggedIn: boolean;
+  me: MeState;
 }
 const initialState: AuthState = {
   type: '',
   loading: true,
-  isLoggedIn: true,
+  isLoggedIn: false,
+  me: {
+    uid: '',
+    email: '',
+    emailVerified: false,
+    isAnonymous: false,
+  },
 };
 
 // reducer
-
 interface RegisterAction {
   type:
     | typeof USER_REGISTER_SUCCESS
@@ -241,7 +265,16 @@ interface ProfileAction {
   payload: ProfileState;
 }
 
-export type AuthAction = RegisterAction | LoginAction | ProfileAction;
+interface RequestMeAction {
+  type: typeof REQUEST_ME;
+  payload: any;
+}
+
+export type AuthAction =
+  | RegisterAction
+  | LoginAction
+  | ProfileAction
+  | RequestMeAction;
 
 const reducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
@@ -269,6 +302,10 @@ const reducer = (state = initialState, action: AuthAction) => {
       return produce(state, draft => {
         draft.type = action.payload.type;
         draft.loading = action.payload.loading;
+      });
+    case REQUEST_ME:
+      return produce(state, draft => {
+        draft.me = action.payload;
       });
     default:
       return state;

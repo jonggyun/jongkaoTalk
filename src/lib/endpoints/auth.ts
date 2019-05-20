@@ -4,6 +4,7 @@ import {
   logout,
   googleAuth,
   profileRegister,
+  currentUser,
 } from '../firebase';
 
 interface UserInfoProps {
@@ -63,12 +64,15 @@ const googleLogout = () => {
   logout();
 };
 
+const getUserInfo = () => currentUser();
+
 const endpoints = {
   userRegister,
   userProfileRegister,
   userLogin,
   googleLogin,
   googleLogout,
+  getUserInfo,
 };
 
 export default endpoints;
