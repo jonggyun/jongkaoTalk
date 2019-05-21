@@ -1,12 +1,11 @@
 import {
+  googleAuth,
   signUp,
   login,
   logout,
-  googleAuth,
-  profileRegister,
   currentUser,
-  uploadProfileImage,
-} from '../firebase';
+} from '../firebase/auth';
+import { profileRegister, uploadProfileImage } from '../firebase/user';
 
 interface UserInfoProps {
   email: string;
