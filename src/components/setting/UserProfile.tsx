@@ -54,14 +54,14 @@ const InputImagePlus = styled.span`
   font-size: 40px;
 `;
 
-interface UserProfileProps {
+interface IProps {
   username: string;
   description: string;
   handleOnChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handleOnSubmit: () => void;
   handleUploadFile: (e: React.FormEvent<HTMLInputElement>) => void;
 }
-const UserProfile: React.FC<UserProfileProps> = ({
+const UserProfile: React.FC<IProps> = ({
   username,
   description,
   handleOnChange,

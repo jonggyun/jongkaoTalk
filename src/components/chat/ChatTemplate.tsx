@@ -19,8 +19,8 @@ const RightSection = styled.section`
   height: 100vh;
 `;
 
-interface ChatTemplateProps {}
-const ChatTemplate: React.FC<ChatTemplateProps> = () => (
+interface IProps {}
+const ChatTemplate: React.FC<IProps> = () => (
   <ChatSection>
     <LeftSection>
       <LeftPanelContainer />

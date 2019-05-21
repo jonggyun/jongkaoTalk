@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { userProfileRegister } from '../../modules/auth';
 import { RootState } from '../../modules/index';
 import UserProfile from '../../components/setting/UserProfile';
+import endpoints from '../../lib/endpoints/auth';
 
 // import { storageRef } from '../../lib/firebase';
 
@@ -11,11 +12,11 @@ interface ProfileProps {
   username: string;
   description: string;
 }
-interface UserProfileContainerProps {
+interface IProps {
   userProfileRegister: ({ uid, username, description }: ProfileProps) => void;
   uid: string;
 }
-const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
+const UserProfileContainer: React.FC<IProps> = ({
   userProfileRegister,
   uid,
 }) => {
@@ -37,9 +38,7 @@ const UserProfileContainer: React.FC<UserProfileContainerProps> = ({
   // });
 
   const handleUploadFile = (e: React.FormEvent<HTMLInputElement>) => {
-    console.log('event', e.currentTarget.files);
-    console.log('event!!', e.currentTarget);
-    console.log('uid', uid);
+    endpoints.userProfileImageRegister({ uid, file: e.currentTarget.files[0] });
   };
 
   const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {

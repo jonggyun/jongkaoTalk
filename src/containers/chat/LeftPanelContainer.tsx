@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import LeftPanel from '../../components/chat/LeftPanel';
 
-interface LeftPanelContainerProps {}
-const LeftPanelContainer: React.FC<LeftPanelContainerProps> = () => {
+interface IProps {}
+const LeftPanelContainer: React.FC<IProps> = () => {
   const [leftType, setLeftType] = useState('friend');
 
   const handleLeftType = (e: any) => {

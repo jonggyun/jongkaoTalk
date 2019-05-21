@@ -28,8 +28,8 @@ const ProfileInfo = styled.div`
   }
 `;
 
-interface MyProfileProps {}
-const MyProfile: React.FC<MyProfileProps> = () => (
+interface IProps {}
+const MyProfile: React.FC<IProps> = () => (
   <Wrapper>
     <ProfileImage />
     <ProfileInfo>

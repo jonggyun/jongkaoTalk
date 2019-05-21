@@ -99,24 +99,22 @@ export const profileRegister = ({
   description: string;
 }) => {
   const user = firebase.auth().currentUser;
-  if (user) {
-    user
-      .updateProfile({
-        displayName: username,
-        // photoURL: 'adress!!!',
-      })
-      .then(() => {
-        // Update successful.
-        firestoreDB
-          .collection('users')
-          .doc(uid)
-          .set({ username, description })
-          .catch(err => console.log('failure', err));
-      })
-      .catch(error => {
-        console.log('err', error);
-      });
-  }
+  user
+    .updateProfile({
+      displayName: username,
+      // photoURL: 'adress!!!',
+    })
+    .then(() => {
+      // Update successful.
+      firestoreDB
+        .collection('users')
+        .doc(uid)
+        .set({ username, description })
+        .catch(err => console.log('failure', err));
+    })
+    .catch(error => {
+      console.log('err', error);
+    });
 };
 
 export const uploadProfileImage = ({
@@ -126,6 +124,13 @@ export const uploadProfileImage = ({
   uid: string;
   file: File;
 }) => {
-  console.log('uid', uid);
-  console.log('file', file);
+  storageRef
+    .child(`profile/${uid}.${file.name.split('.')[1]}`)
+    .put(file)
+    .then(snapshot => {
+      console.log('success!!!!', snapshot);
+    })
+    .catch(err => {
+      console.log('err', err);
+    });
 };

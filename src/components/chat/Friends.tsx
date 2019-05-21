@@ -31,8 +31,8 @@ const FriendImage = styled.div`
   border-radius: 14px;
 `;
 
-interface FriendsProps {}
-const Friends: React.FC<FriendsProps> = () => (
+interface IProps {}
+const Friends: React.FC<IProps> = () => (
   <Wrapper>
     <Title>친구 222</Title>
     <FriendsWrapper>

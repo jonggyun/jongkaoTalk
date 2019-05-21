@@ -65,7 +65,7 @@ const GoogleButton = styled.div`
   }
 `;
 
-interface InputSectionProps {
+interface IProps {
   type: string;
   pageType: string;
   email: string;
@@ -78,7 +78,7 @@ interface InputSectionProps {
   handleGoogleLogin: () => void;
 }
 
-const InputSection: React.FC<InputSectionProps> = ({
+const InputSection: React.FC<IProps> = ({
   type,
   pageType,
   handleType,

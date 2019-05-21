@@ -10,15 +10,18 @@ interface RegisterProps {
   email: string;
   password: string;
 }
-interface InputSectionContainerProps {
+interface IProps {
   type: string;
   userRegister: ({ email, password }: RegisterProps) => void;
   userLogin: ({ email, password }: RegisterProps) => void;
   userOauth: () => void;
 }
-const InputSectionContainer: React.FC<
-  RouteComponentProps<{}> & InputSectionContainerProps
-> = ({ type, userRegister, userLogin, userOauth }) => {
+const InputSectionContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
+  type,
+  userRegister,
+  userLogin,
+  userOauth,
+}) => {
   const [pageType, setPageType] = useState('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

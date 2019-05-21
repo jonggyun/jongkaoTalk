@@ -47,11 +47,11 @@ const Footer = styled.footer`
   }
 `;
 
-interface LeftPanelProps {
+interface IProps {
   handleLeftType: (e: any) => void;
   type: string;
 }
-const LeftPanel: React.FC<LeftPanelProps> = ({ handleLeftType, type }) => (
+const LeftPanel: React.FC<IProps> = ({ handleLeftType, type }) => (
   <Wrapper>
     <Header>
       <HeaderTitle>{type === 'friend' ? '친구' : '채팅'}</HeaderTitle>

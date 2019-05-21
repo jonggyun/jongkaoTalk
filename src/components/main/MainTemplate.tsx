@@ -25,9 +25,9 @@ const MainSection = styled.section`
   background-color: #ffeb3b;
 `;
 
-interface MainTemplateProps {}
+interface IProps {}
 
-const MainTemplate: React.FC<MainTemplateProps> = () => (
+const MainTemplate: React.FC<IProps> = () => (
   <MainSection>
     <HeaderTitle>JongkaoTalk</HeaderTitle>
     <HeaderDesc>

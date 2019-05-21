@@ -5,6 +5,7 @@ import {
   googleAuth,
   profileRegister,
   currentUser,
+  uploadProfileImage,
 } from '../firebase';
 
 interface UserInfoProps {
@@ -47,6 +48,8 @@ const userProfileRegister = async ({
   }
 };
 
+const userProfileImageRegister = (data: any) => uploadProfileImage(data);
+
 const userLogin = async ({ email, password }: UserInfoProps) => {
   try {
     await login({ email, password });
@@ -70,6 +73,7 @@ const getUserInfo = () => currentUser();
 const endpoints = {
   userRegister,
   userProfileRegister,
+  userProfileImageRegister,
   userLogin,
   googleLogin,
   googleLogout,

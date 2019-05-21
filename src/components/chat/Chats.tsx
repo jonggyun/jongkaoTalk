@@ -42,9 +42,10 @@ const ChatUpdatedAt = styled.span`
   color: #7f8c8d;
 `;
 
-interface ChatsProps {}
-const Chats: React.FC<ChatsProps> = () => (
+interface IProps {}
+const Chats: React.FC<IProps> = () => (
   <Wrapper>
+    {/* <Chat />
     <Chat />
     <Chat />
     <Chat />
@@ -60,21 +61,20 @@ const Chats: React.FC<ChatsProps> = () => (
     <Chat />
     <Chat />
     <Chat />
-    <Chat />
-    <Chat />
+    <Chat /> */}
   </Wrapper>
 );
 
-interface ChatProps {}
-const Chat: React.FC<ChatProps> = () => (
-  <ChatInfo>
-    <ChatImage />
-    <ChatCenter>
-      <ChatTitle>대화방 이름</ChatTitle>
-      <ChatContent>대화내용</ChatContent>
-    </ChatCenter>
-    <ChatUpdatedAt>오후 11:28</ChatUpdatedAt>
-  </ChatInfo>
-);
+// interface ChatProps {}
+// const Chat: React.FC<ChatProps> = () => (
+//   <ChatInfo>
+//     <ChatImage />
+//     <ChatCenter>
+//       <ChatTitle>대화방 이름</ChatTitle>
+//       <ChatContent>대화내용</ChatContent>
+//     </ChatCenter>
+//     <ChatUpdatedAt>오후 11:28</ChatUpdatedAt>
+//   </ChatInfo>
+// );
 
 export default Chats;
