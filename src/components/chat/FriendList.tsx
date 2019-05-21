@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Friend from './Friend';
+
 const Wrapper = styled.section`
   flex: 1;
   padding-left: 0.625rem;
@@ -14,25 +16,8 @@ const Title = styled.span`
 
 const FriendsWrapper = styled.div``;
 
-const FriendInfo = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.9375rem;
-  span {
-    padding-left: 0.875rem;
-    font-size: 1.125rem;
-  }
-`;
-
-const FriendImage = styled.div`
-  width: 50px;
-  height: 50px;
-  border: 1px solid #000;
-  border-radius: 14px;
-`;
-
 interface IProps {}
-const Friends: React.FC<IProps> = () => (
+const FriendList: React.FC<IProps> = () => (
   <Wrapper>
     <Title>친구 222</Title>
     <FriendsWrapper>
@@ -63,11 +48,4 @@ const Friends: React.FC<IProps> = () => (
   </Wrapper>
 );
 
-const Friend = () => (
-  <FriendInfo>
-    <FriendImage />
-    <span>대화명</span>
-  </FriendInfo>
-);
-
-export default Friends;
+export default FriendList;

@@ -1,8 +1,8 @@
 import React from 'react';
 import MainTemplate from '../components/main/MainTemplate';
 
-interface MainPageProps {}
+interface IProps {}
 
-const MainPage: React.FC<MainPageProps> = () => <MainTemplate />;
+const MainPage: React.FC<IProps> = () => <MainTemplate />;
 
 export default MainPage;

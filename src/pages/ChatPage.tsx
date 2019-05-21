@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatTemplate from '../components/chat/ChatTemplate';
 
-interface ChatPageProps {}
-const ChatPage: React.FC<ChatPageProps> = () => <ChatTemplate />;
+interface IProps {}
+const ChatPage: React.FC<IProps> = () => <ChatTemplate />;
 
 export default ChatPage;

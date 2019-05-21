@@ -46,9 +46,7 @@ const InputSectionContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
   };
 
   const handleOnSubmit = () => {
-    pageType === 'login'
-      ? userLogin({ email, password })
-      : userRegister({ email, password });
+    pageType === 'login' ? userLogin({ email, password }) : userRegister({ email, password });
   };
 
   const handleGoogleLogin = () => {

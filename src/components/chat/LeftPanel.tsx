@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Icon } from 'antd';
 
 import MyProfile from './MyProfile';
-import Friends from './Friends';
-import Chats from './Chats';
+import FriendList from './FriendList';
+import ChattingRoomList from './ChattingRoomList';
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,10 +64,10 @@ const LeftPanel: React.FC<IProps> = ({ handleLeftType, type }) => (
     {type === 'friend' ? (
       <React.Fragment>
         <MyProfile />
-        <Friends />
+        <FriendList />
       </React.Fragment>
     ) : (
-      <Chats />
+      <ChattingRoomList />
     )}
     <Footer>
       <span data-type="friend" onClick={handleLeftType}>

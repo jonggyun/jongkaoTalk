@@ -30,12 +30,12 @@ const InputWrapper = styled.div`
 `;
 
 const InputImage = styled.div`
-  height: 126px;
-  width: 126px;
+  height: 7.875rem;
+  width: 7.875rem;
   border: 1px dashed #d9d9d9;
   background-color: #fafafa;
   border-radius: 0.3125rem;
-  margin-right: 8px;
+  margin-right: 0.5rem;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -45,13 +45,12 @@ const InputImage = styled.div`
   cursor: pointer;
 
   input[type='file'] {
-    /* position: absolute; */
     display: none;
   }
 `;
 
 const InputImagePlus = styled.span`
-  font-size: 40px;
+  font-size: 2.5rem;
 `;
 
 interface IProps {

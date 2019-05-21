@@ -1,9 +1,7 @@
 import React from 'react';
 import UserProfileContainer from '../containers/setting/UserProfileContainer';
 
-interface ProfileSettingProps {}
-const ProfileSetting: React.FC<ProfileSettingProps> = () => (
-  <UserProfileContainer />
-);
+interface IProps {}
+const ProfileSetting: React.FC<IProps> = () => <UserProfileContainer />;
 
 export default ProfileSetting;
