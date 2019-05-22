@@ -7,11 +7,13 @@ import {
 } from '../firebase/auth';
 import { profileRegister, uploadProfileImage } from '../firebase/user';
 
-interface UserInfoProps {
+const userRegister = async ({
+  email,
+  password,
+}: {
   email: string;
   password: string;
-}
-const userRegister = async ({ email, password }: UserInfoProps) => {
+}) => {
   try {
     const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     // 비밀번호 숫자, 특문 각 1회 이상, 영문은 2개 이상 사용하여 8자리 이상 입력
@@ -26,16 +28,15 @@ const userRegister = async ({ email, password }: UserInfoProps) => {
   }
 };
 
-interface UserProfileProps {
-  uid: string;
-  username: string;
-  description: string;
-}
 const userProfileRegister = async ({
   uid,
   username,
   description,
-}: UserProfileProps) => {
+}: {
+  uid: string;
+  username: string;
+  description: string;
+}) => {
   try {
     await profileRegister({
       uid,
@@ -49,7 +50,13 @@ const userProfileRegister = async ({
 
 const userProfileImageRegister = (data: any) => uploadProfileImage(data);
 
-const userLogin = async ({ email, password }: UserInfoProps) => {
+const userLogin = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
   try {
     await login({ email, password });
   } catch (err) {

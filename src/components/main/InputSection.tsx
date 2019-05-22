@@ -71,7 +71,6 @@ interface IProps {
   email: string;
   password: string;
   confirmPassword: string;
-  comparePassword: boolean;
   handleType: () => void;
   handleOnChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handleOnSubmit: () => void;
@@ -88,7 +87,6 @@ const InputSection: React.FC<IProps> = ({
   email,
   password,
   confirmPassword,
-  comparePassword,
 }) => (
   <WrapSection>
     <Title>{pageType === 'login' ? 'Log In' : 'Sign Up'}</Title>
@@ -152,7 +150,7 @@ const InputSection: React.FC<IProps> = ({
           onChange={handleOnChange}
           value={confirmPassword}
         />
-        {confirmPassword.length > 0 && !comparePassword ? (
+        {confirmPassword.length > 0 && password !== confirmPassword ? (
           <InvalidLabel>
             Incorrect your password. Please compare password.
           </InvalidLabel>
@@ -165,7 +163,7 @@ const InputSection: React.FC<IProps> = ({
           type="primary"
           block
           onClick={handleOnSubmit}
-          disabled={!(email && password && comparePassword)}
+          disabled={!(email && password && password === confirmPassword)}
         >
           Sign Up
         </Button>

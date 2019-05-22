@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+
 import { RootState } from '../../modules/index';
 import { userRegister, userLogin, userOauth } from '../../modules/auth';
 
 import InputSection from '../../components/main/InputSection';
+
+import useInputs from '../../lib/hooks/useInputs';
 
 interface RegisterProps {
   email: string;
@@ -23,42 +26,27 @@ const InputSectionContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
   userOauth,
 }) => {
   const [pageType, setPageType] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [comparePassword, setComparePassword] = useState(false);
+  const [state, handleOnChange] = useInputs({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  const { email, password, confirmPassword } = state;
 
   const handleType = () => {
     pageType === 'login' ? setPageType('signup') : setPageType('login');
   };
 
-  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    name === 'email'
-      ? setEmail(value)
-      : name === 'password'
-      ? setPassword(value)
-      : setConfirmPassword(value);
-
-    if (name === 'confirmPassword') {
-      password === value ? setComparePassword(true) : setComparePassword(false);
-    }
-  };
-
   const handleOnSubmit = () => {
-    pageType === 'login' ? userLogin({ email, password }) : userRegister({ email, password });
+    pageType === 'login'
+      ? userLogin({ email, password })
+      : userRegister({ email, password });
   };
 
   const handleGoogleLogin = () => {
     console.log('hadleGoogleLogin');
     userOauth();
   };
-
-  useEffect(() => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-  }, [pageType]);
 
   return (
     <InputSection
@@ -71,7 +59,6 @@ const InputSectionContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
       email={email}
       password={password}
       confirmPassword={confirmPassword}
-      comparePassword={comparePassword}
     />
   );
 };
