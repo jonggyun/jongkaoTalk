@@ -6,7 +6,7 @@ interface IProps {}
 const LeftPanelContainer: React.FC<IProps> = () => {
   const [leftType, setLeftType] = useState('friend');
 
-  const handleLeftType = (e: any) => {
+  const handleLeftType = (e: React.MouseEvent<HTMLElement>) => {
     const { type } = e.currentTarget.dataset;
     console.log('type', type);
     type === 'friend' ? setLeftType('friend') : setLeftType('message');

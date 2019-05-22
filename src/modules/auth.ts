@@ -269,7 +269,7 @@ interface ProfileAction {
 
 interface RequestMeAction {
   type: typeof REQUEST_ME;
-  payload: any;
+  payload: MeState;
 }
 
 export type AuthAction =

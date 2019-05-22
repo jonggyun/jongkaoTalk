@@ -48,7 +48,8 @@ const userProfileRegister = async ({
   }
 };
 
-const userProfileImageRegister = (data: any) => uploadProfileImage(data);
+const userProfileImageRegister = (data: { uid: string; file: File }) =>
+  uploadProfileImage(data);
 
 const userLogin = async ({
   email,

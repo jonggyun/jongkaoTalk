@@ -48,7 +48,7 @@ const Footer = styled.footer`
 `;
 
 interface IProps {
-  handleLeftType: (e: any) => void;
+  handleLeftType: (e: React.MouseEvent<HTMLElement>) => void;
   type: string;
 }
 const LeftPanel: React.FC<IProps> = ({ handleLeftType, type }) => (
