@@ -6,6 +6,7 @@ import UserProfile from '../../components/setting/UserProfile';
 import endpoints from '../../lib/endpoints/auth';
 
 // import { storageRef } from '../../lib/firebase';
+import useInputs from '../../lib/hooks/useInputs';
 
 interface ProfileProps {
   uid: string;
@@ -20,9 +21,11 @@ const UserProfileContainer: React.FC<IProps> = ({
   userProfileRegister,
   uid,
 }) => {
-  const [username, setUsername] = useState('');
-  const [description, setDescription] = useState('');
-  // const [loading, setLoading] = useState(false);
+  const [state, handleOnChange] = useInputs({
+    username: '',
+    description: '',
+  });
+  const { username, description } = state;
 
   // 이미지 참조하는 방법.
   // useEffect(() => {
@@ -39,11 +42,6 @@ const UserProfileContainer: React.FC<IProps> = ({
 
   const handleUploadFile = (e: React.FormEvent<HTMLInputElement>) => {
     endpoints.userProfileImageRegister({ uid, file: e.currentTarget.files[0] });
-  };
-
-  const handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    name === 'username' ? setUsername(value) : setDescription(value);
   };
 
   const handleOnSubmit = () => {

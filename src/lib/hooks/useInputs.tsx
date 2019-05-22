@@ -6,9 +6,7 @@ type UseInputsAction = {
 };
 
 type InitialValueForm = {
-  email: string;
-  password: string;
-  confirmPassword: string;
+  [key: string]: string;
 };
 
 function reducer<T>(state: T, action: UseInputsAction) {
@@ -20,8 +18,8 @@ function reducer<T>(state: T, action: UseInputsAction) {
 
 export default function useInputs(initialValue: InitialValueForm) {
   const [state, dispatch] = useReducer(reducer, initialValue);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(e.target);
   };
-  return [state, onChange];
+  return [state, handleOnChange];
 }
