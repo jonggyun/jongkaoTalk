@@ -12,6 +12,7 @@ interface AppProps {
   isLoggedIn: boolean;
 }
 const App: React.FC<RouteComponentProps<{}> & AppProps> = ({ isLoggedIn }) => {
+  console.log('sessionStorage', sessionStorage);
   return isLoggedIn ? <PrivateRoute key={1} /> : <PublicRoute key={2} />;
 };
 
@@ -23,8 +24,8 @@ const PublicRoute = () => (
 
 const PrivateRoute = () => (
   <React.Fragment>
-    {/* <Route exact path="/" component={ChatPage} /> */}
     <Route exact path="/" component={ProfileSetting} />
+    <Route exact path="/chattingrooms" component={ChatPage} />
   </React.Fragment>
 );
 

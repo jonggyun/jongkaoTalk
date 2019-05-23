@@ -20,7 +20,7 @@ export const profileRegister = ({
       firestoreDB
         .collection('users')
         .doc(uid)
-        .set({ username, description })
+        .update({ username, description })
         .catch(err => console.log('failure', err));
     })
     .catch(error => {
@@ -28,14 +28,14 @@ export const profileRegister = ({
     });
 };
 
-export const uploadProfileImage = ({
+export const uploadProfileImage = async ({
   uid,
   file,
 }: {
   uid: string;
   file: File;
 }) => {
-  storageRef
+  await storageRef
     .child(`profile/${uid}.${file.name.split('.')[1]}`)
     .put(file)
     .then(() => {

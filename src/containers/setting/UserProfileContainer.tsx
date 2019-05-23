@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { userProfileRegister } from '../../modules/auth';
 import { RootState } from '../../modules/index';
@@ -16,23 +17,26 @@ interface ProfileProps {
 interface IProps {
   userProfileRegister: ({ uid, username, description }: ProfileProps) => void;
   uid: string;
+  history: any;
 }
-const UserProfileContainer: React.FC<IProps> = ({
+const UserProfileContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
   userProfileRegister,
   uid,
+  history,
 }) => {
   const [state, handleOnChange] = useInputs({
     username: '',
     description: '',
   });
   const [userProfileImage, setUserProfileImage] = useState('');
-  const [changeImage, setChangeImage] = useState(null);
+  const [changeImage, setChangeImage] = useState(false);
   const { username, description } = state;
 
   useEffect(() => {
     (async () => {
       try {
         const profileImage = await getProfileImage({ uid });
+        console.log('profileImage', profileImage);
         setUserProfileImage(profileImage);
       } catch (err) {
         setUserProfileImage('');
@@ -40,13 +44,21 @@ const UserProfileContainer: React.FC<IProps> = ({
     })();
   }, [changeImage]);
 
-  const handleUploadFile = (e: React.FormEvent<HTMLInputElement>) => {
-    endpoints.userProfileImageRegister({ uid, file: e.currentTarget.files[0] });
-    setChangeImage(e.currentTarget.files[0]);
+  const handleUploadFile = async (e: React.FormEvent<HTMLInputElement>) => {
+    await endpoints.userProfileImageRegister({
+      uid,
+      file: e.currentTarget.files[0],
+    });
+    setChangeImage(!changeImage);
   };
 
-  const handleOnSubmit = () => {
-    userProfileRegister({ uid, username, description });
+  const handleOnSubmit = async () => {
+    try {
+      await userProfileRegister({ uid, username, description });
+      history.push('/chattingrooms');
+    } catch (err) {
+      console.log('profile submit', err);
+    }
   };
 
   return (
@@ -61,11 +73,13 @@ const UserProfileContainer: React.FC<IProps> = ({
   );
 };
 
-export default connect(
-  (state: RootState, ownProps) => ({
-    uid: state.auth.me.uid,
-  }),
-  {
-    userProfileRegister,
-  }
-)(UserProfileContainer);
+export default withRouter(
+  connect(
+    (state: RootState, ownProps) => ({
+      uid: state.auth.me.uid,
+    }),
+    {
+      userProfileRegister,
+    }
+  )(UserProfileContainer)
+);

@@ -1,4 +1,4 @@
-import { firebaseAuth, googleAuthProvider } from './init';
+import { firebaseInit, firebaseAuth, googleAuthProvider } from './init';
 
 export const googleAuth = () => {
   googleAuthProvider.addScope(
@@ -42,6 +42,7 @@ export const login = async ({
   email: string;
   password: string;
 }) => {
+  // await firebaseAuth.setPersistence(firebaseInit.auth.Auth.Persistence.SESSION);
   await firebaseAuth.signInWithEmailAndPassword(email, password).catch(err => {
     throw new Error(err);
   });
