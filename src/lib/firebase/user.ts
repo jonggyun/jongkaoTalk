@@ -38,10 +38,33 @@ export const uploadProfileImage = ({
   storageRef
     .child(`profile/${uid}.${file.name.split('.')[1]}`)
     .put(file)
-    .then(snapshot => {
-      console.log('success!!!!', snapshot);
+    .then(() => {
+      firestoreDB
+        .collection('users')
+        .doc(uid)
+        .update({
+          profileImage: `${uid}.${file.name.split('.')[1]}`,
+        });
     })
     .catch(err => {
       console.log('err', err);
     });
+};
+
+export const getProfileImage = async ({ uid }: { uid: string }) => {
+  try {
+    const doc = await firestoreDB
+      .collection('users')
+      .doc(uid)
+      .get();
+
+    const image = await storageRef
+      .child(`profile/${doc.data().profileImage}`)
+      .getDownloadURL();
+
+    return image;
+  } catch (err) {
+    console.log('getProfileImage err: ', err);
+    return '';
+  }
 };

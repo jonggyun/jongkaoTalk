@@ -47,6 +47,9 @@ const InputImage = styled.div`
   input[type='file'] {
     display: none;
   }
+  img {
+    width: 100%;
+  }
 `;
 
 const InputImagePlus = styled.span`
@@ -56,12 +59,14 @@ const InputImagePlus = styled.span`
 interface IProps {
   username: string;
   description: string;
+  userProfileImage: string;
   handleOnChange: (e: React.FormEvent<HTMLInputElement>) => void;
   handleOnSubmit: () => void;
   handleUploadFile: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 const UserProfile: React.FC<IProps> = ({
   username,
+  userProfileImage,
   description,
   handleOnChange,
   handleOnSubmit,
@@ -72,11 +77,18 @@ const UserProfile: React.FC<IProps> = ({
       <ProfileInfo>
         <Upper>
           <label htmlFor="ex_file">
-            <InputImage>
-              <InputImagePlus>+</InputImagePlus>
-              <span>Upload</span>
-              <input type="file" id="ex_file" onChange={handleUploadFile} />
-            </InputImage>
+            {userProfileImage.length > 0 ? (
+              <InputImage>
+                <img src={userProfileImage} alt="profile_image" />
+                <input type="file" id="ex_file" onChange={handleUploadFile} />
+              </InputImage>
+            ) : (
+              <InputImage>
+                <InputImagePlus>+</InputImagePlus>
+                <span>Upload</span>
+                <input type="file" id="ex_file" onChange={handleUploadFile} />
+              </InputImage>
+            )}
           </label>
           <InputWrapper>
             <Input
