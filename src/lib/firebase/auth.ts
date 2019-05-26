@@ -42,7 +42,7 @@ export const login = async ({
   email: string;
   password: string;
 }) => {
-  // await firebaseAuth.setPersistence(firebaseInit.auth.Auth.Persistence.SESSION);
+  await firebaseAuth.setPersistence(firebaseInit.auth.Auth.Persistence.SESSION);
   await firebaseAuth.signInWithEmailAndPassword(email, password).catch(err => {
     throw new Error(err);
   });

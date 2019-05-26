@@ -55,7 +55,7 @@ const UserProfileContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
   const handleOnSubmit = async () => {
     try {
       await userProfileRegister({ uid, username, description });
-      history.push('/chattingrooms');
+      // history.push('/chattingrooms');
     } catch (err) {
       console.log('profile submit', err);
     }

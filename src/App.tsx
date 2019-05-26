@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { RootState } from './modules/index';
@@ -7,12 +7,37 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import ChatPage from './pages/ChatPage';
 import ProfileSetting from './pages/ProfileSettingPage';
+import { firebaseAuth } from './lib/firebase/init';
+
+import { userLoginSuccess } from './modules/auth';
 
 interface AppProps {
   isLoggedIn: boolean;
+  userLoginSuccess: ({
+    type,
+    loading,
+    isLoggedIn,
+  }: {
+    type: string;
+    loading: boolean;
+    isLoggedIn: boolean;
+  }) => void;
 }
-const App: React.FC<RouteComponentProps<{}> & AppProps> = ({ isLoggedIn }) => {
-  console.log('sessionStorage', sessionStorage);
+const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
+  isLoggedIn,
+  userLoginSuccess,
+}) => {
+  const [persistenceUser, setPersistenceUser] = useState(false);
+
+  useEffect(() => {
+    firebaseAuth.onAuthStateChanged(user => {
+      user ? setPersistenceUser(true) : setPersistenceUser(false);
+    });
+  }, [persistenceUser]);
+
+  if (persistenceUser) {
+    userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true });
+  }
   return isLoggedIn ? <PrivateRoute key={1} /> : <PublicRoute key={2} />;
 };
 
@@ -24,13 +49,18 @@ const PublicRoute = () => (
 
 const PrivateRoute = () => (
   <React.Fragment>
-    <Route exact path="/" component={ProfileSetting} />
-    <Route exact path="/chattingrooms" component={ChatPage} />
+    <Route exact path="/setting" component={ProfileSetting} />
+    <Route exact path="/" component={ChatPage} />
   </React.Fragment>
 );
 
 export default withRouter(
-  connect((state: RootState, ownProps) => ({
-    isLoggedIn: state.auth.isLoggedIn,
-  }))(App)
+  connect(
+    (state: RootState, ownProps) => ({
+      isLoggedIn: state.auth.isLoggedIn,
+    }),
+    {
+      userLoginSuccess,
+    }
+  )(App)
 );
