@@ -23,6 +23,8 @@ const USER_PROFILE_REGISTER_FAILURE = 'auth/USER_PROFILE_REGISTER_FAILURE';
 
 const REQUEST_ME = 'auth/REQUEST_ME';
 
+const USER_LOGOUT = 'auth/USER_LOGOUT';
+
 // action creator
 interface ReigsterState {
   type: string;
@@ -109,6 +111,11 @@ export const userProfileRegisterFailure = (payload: ProfileState) => ({
 
 export const requestMe = (payload: MeState) => ({
   type: REQUEST_ME,
+  payload,
+});
+
+export const userLogout = (payload: LoginState) => ({
+  type: USER_LOGOUT,
   payload,
 });
 
@@ -272,11 +279,17 @@ interface RequestMeAction {
   payload: MeState;
 }
 
+interface LogoutAction {
+  type: typeof USER_LOGOUT;
+  payload: LoginState;
+}
+
 export type AuthAction =
   | RegisterAction
   | LoginAction
   | ProfileAction
-  | RequestMeAction;
+  | RequestMeAction
+  | LogoutAction;
 
 const reducer = (state = initialState, action: AuthAction) => {
   switch (action.type) {
@@ -308,6 +321,12 @@ const reducer = (state = initialState, action: AuthAction) => {
     case REQUEST_ME:
       return produce(state, draft => {
         draft.me = action.payload;
+      });
+    case USER_LOGOUT:
+      return produce(state, draft => {
+        draft.type = action.payload.type;
+        draft.loading = action.payload.loading;
+        draft.isLoggedIn = action.payload.isLoggedIn;
       });
     default:
       return state;

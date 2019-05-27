@@ -10,18 +10,14 @@ import ProfileSetting from './pages/ProfileSettingPage';
 import { firebaseAuth } from './lib/firebase/init';
 
 import { userLoginSuccess } from './modules/auth';
-
+interface LoginType {
+  type: string;
+  loading: boolean;
+  isLoggedIn: boolean;
+}
 interface AppProps {
   isLoggedIn: boolean;
-  userLoginSuccess: ({
-    type,
-    loading,
-    isLoggedIn,
-  }: {
-    type: string;
-    loading: boolean;
-    isLoggedIn: boolean;
-  }) => void;
+  userLoginSuccess: ({ type, loading, isLoggedIn }: LoginType) => void;
 }
 const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
   isLoggedIn,
@@ -33,7 +29,7 @@ const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
     firebaseAuth.onAuthStateChanged(user => {
       user ? setPersistenceUser(true) : setPersistenceUser(false);
     });
-  }, [persistenceUser]);
+  }, []);
 
   if (persistenceUser) {
     userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true });

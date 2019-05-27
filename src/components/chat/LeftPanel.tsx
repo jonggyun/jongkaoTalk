@@ -49,9 +49,14 @@ const Footer = styled.footer`
 
 interface IProps {
   handleLeftType: (e: React.MouseEvent<HTMLElement>) => void;
+  handleLogout: () => void;
   type: string;
 }
-const LeftPanel: React.FC<IProps> = ({ handleLeftType, type }) => (
+const LeftPanel: React.FC<IProps> = ({
+  handleLeftType,
+  type,
+  handleLogout,
+}) => (
   <Wrapper>
     <Header>
       <HeaderTitle>{type === 'friend' ? '친구' : '채팅'}</HeaderTitle>
@@ -59,6 +64,11 @@ const LeftPanel: React.FC<IProps> = ({ handleLeftType, type }) => (
         <Icon style={{ fontSize: '22px' }} type="search" />
         <Icon style={{ fontSize: '22px' }} type="user-add" />
         <Icon style={{ fontSize: '22px' }} type="setting" />
+        <Icon
+          style={{ fontSize: '22px' }}
+          type="logout"
+          onClick={handleLogout}
+        />
       </HeaderIcons>
     </Header>
     {type === 'friend' ? (
