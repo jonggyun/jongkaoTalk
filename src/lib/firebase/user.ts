@@ -68,3 +68,12 @@ export const getProfileImage = async ({ uid }: { uid: string }) => {
     return '';
   }
 };
+
+export const getUserProfile = async (uid: string) => {
+  console.log('in firebse', uid);
+  const userData = (await firestoreDB
+    .collection('users')
+    .doc(uid)
+    .get()).data();
+  console.log('userData', userData);
+};

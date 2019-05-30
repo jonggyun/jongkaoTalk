@@ -69,9 +69,7 @@ export const currentUser = () => {
 export const userAuthSignOut = async () => {
   await firebaseAuth
     .signOut()
-    .then(() => {
-      console.log('logout');
-    })
+    .then(() => {})
     .catch(err => {
       console.log('err', err);
     });

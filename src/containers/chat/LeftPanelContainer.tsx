@@ -23,8 +23,11 @@ const LeftPanelContainer: React.FC<IProps> = ({ userLogout }) => {
       title: 'Do you Want to Logout?',
       content: 'If you want to logout. please click OK.',
       async onOk() {
-        await userAuthSignOut();
-        userLogout();
+        try {
+          const result = await userAuthSignOut();
+          console.log('result', result);
+          userLogout();
+        } catch (err) {}
       },
       onCancel() {},
     });

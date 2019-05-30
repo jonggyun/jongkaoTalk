@@ -26,23 +26,23 @@ const REQUEST_ME = 'auth/REQUEST_ME';
 const USER_LOGOUT = 'auth/USER_LOGOUT';
 
 // action creator
-interface ReigsterState {
+export interface ReigsterState {
   type: string;
   loading: boolean;
 }
 
-interface LoginState {
+export interface LoginState {
   type: string;
   loading: boolean;
   isLoggedIn: boolean;
 }
 
-interface ProfileState {
+export interface ProfileState {
   type: string;
   loading: boolean;
 }
 
-interface MeState {
+export interface MeState {
   uid: string;
   email: string;
   emailVerified: boolean;

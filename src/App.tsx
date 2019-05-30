@@ -9,31 +9,32 @@ import ChatPage from './pages/ChatPage';
 import ProfileSetting from './pages/ProfileSettingPage';
 import { firebaseAuth } from './lib/firebase/init';
 
-import { userLoginSuccess } from './modules/auth';
-interface LoginType {
-  type: string;
-  loading: boolean;
-  isLoggedIn: boolean;
-}
+import {
+  userLoginSuccess,
+  requestMe,
+  LoginState,
+  MeState,
+} from './modules/auth';
+
 interface AppProps {
   isLoggedIn: boolean;
-  userLoginSuccess: ({ type, loading, isLoggedIn }: LoginType) => void;
+  userLoginSuccess: ({ type, loading, isLoggedIn }: LoginState) => void;
+  requestMe: ({ uid, email, emailVerified, isAnonymous }: MeState) => void;
 }
 const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
   isLoggedIn,
   userLoginSuccess,
+  requestMe,
 }) => {
-  const [persistenceUser, setPersistenceUser] = useState(false);
-
   useEffect(() => {
     firebaseAuth.onAuthStateChanged(user => {
-      user ? setPersistenceUser(true) : setPersistenceUser(false);
+      if (user) {
+        userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true });
+        requestMe(user);
+      }
     });
   }, []);
 
-  if (persistenceUser) {
-    userLoginSuccess({ type: 'success', loading: false, isLoggedIn: true });
-  }
   return isLoggedIn ? <PrivateRoute key={1} /> : <PublicRoute key={2} />;
 };
 
@@ -57,6 +58,7 @@ export default withRouter(
     }),
     {
       userLoginSuccess,
+      requestMe,
     }
   )(App)
 );

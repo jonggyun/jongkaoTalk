@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Icon } from 'antd';
 
 import MyProfile from './MyProfile';
+import MyProfileContainer from '../../containers/chat/MyProfileContainer';
 import FriendList from './FriendList';
 import ChattingRoomList from './ChattingRoomList';
 
@@ -73,7 +74,7 @@ const LeftPanel: React.FC<IProps> = ({
     </Header>
     {type === 'friend' ? (
       <React.Fragment>
-        <MyProfile />
+        <MyProfileContainer />
         <FriendList />
       </React.Fragment>
     ) : (
