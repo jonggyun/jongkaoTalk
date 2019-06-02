@@ -1,5 +1,6 @@
 // import
-import { Dispatch } from 'redux';
+import { Dispatch, Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import produce from 'immer';
 import endpoints from '../lib/endpoints/auth';
 import { toastr } from 'react-redux-toastr';
@@ -151,7 +152,7 @@ export const userLogin = ({
   email: string;
   password: string;
 }) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: any) => {
     try {
       dispatch(
         userLoginRequest({ type: 'request', loading: false, isLoggedIn: false })
@@ -160,7 +161,6 @@ export const userLogin = ({
         email,
         password,
       });
-
       const data = await endpoints.getUserInfo();
       dispatch(requestMe(data));
       dispatch(

@@ -36,7 +36,6 @@ const UserProfileContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
     (async () => {
       try {
         const profileImage = await getProfileImage({ uid });
-        console.log('profileImage', profileImage);
         setUserProfileImage(profileImage);
       } catch (err) {
         setUserProfileImage('');

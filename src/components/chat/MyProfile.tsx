@@ -1,14 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { Icon } from 'antd';
 
-const Wrapper = styled.div`
+interface SProps {
+  readonly loading?: boolean;
+}
+const Wrapper = styled.div<SProps>`
   height: 4.375rem;
   border-bottom: 1px solid #bdc3c7;
   padding-left: 10px;
   display: flex;
+  ${({ loading }) =>
+    !loading
+      ? css`
+          justify-content: center;
+          align-items: center;
+        `
+      : null};
 `;
 
-const ProfileImage = styled.div`
+const ProfileImage = styled.img`
   height: 3.125rem;
   width: 3.125rem;
   border: 1px solid #bdc3c7;
@@ -28,14 +39,30 @@ const ProfileInfo = styled.div`
   }
 `;
 
-interface IProps {}
-const MyProfile: React.FC<IProps> = () => (
-  <Wrapper>
-    <ProfileImage />
-    <ProfileInfo>
-      <span>이름</span>
-      <span>대화명인가</span>
-    </ProfileInfo>
+interface IProps {
+  loading: boolean;
+  username: string;
+  userProfileImage: string;
+  description: string;
+}
+const MyProfile: React.FC<IProps> = ({
+  loading,
+  username,
+  userProfileImage,
+  description,
+}) => (
+  <Wrapper loading={loading}>
+    {!loading ? (
+      <Icon style={{ fontSize: '40px' }} type="loading" />
+    ) : (
+      <>
+        <ProfileImage src={userProfileImage} alt="my_profile" />
+        <ProfileInfo>
+          <span>{username}</span>
+          <span>{description}</span>
+        </ProfileInfo>
+      </>
+    )}
   </Wrapper>
 );
 

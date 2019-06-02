@@ -18,11 +18,13 @@ import {
 
 interface AppProps {
   isLoggedIn: boolean;
+  me: MeState;
   userLoginSuccess: ({ type, loading, isLoggedIn }: LoginState) => void;
   requestMe: ({ uid, email, emailVerified, isAnonymous }: MeState) => void;
 }
 const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
   isLoggedIn,
+  me,
   userLoginSuccess,
   requestMe,
 }) => {
@@ -35,7 +37,11 @@ const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
     });
   }, []);
 
-  return isLoggedIn ? <PrivateRoute key={1} /> : <PublicRoute key={2} />;
+  return isLoggedIn && me.uid ? (
+    <PrivateRoute key={1} />
+  ) : (
+    <PublicRoute key={2} />
+  );
 };
 
 const PublicRoute = () => (
@@ -55,6 +61,7 @@ export default withRouter(
   connect(
     (state: RootState, ownProps) => ({
       isLoggedIn: state.auth.isLoggedIn,
+      me: state.auth.me,
     }),
     {
       userLoginSuccess,
