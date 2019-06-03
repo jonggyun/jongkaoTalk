@@ -1,6 +1,5 @@
 // import
-import { Dispatch, Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { Dispatch } from 'redux';
 import produce from 'immer';
 import endpoints from '../lib/endpoints/auth';
 import { toastr } from 'react-redux-toastr';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router';
 import { RootState } from './modules/index';
@@ -35,7 +35,7 @@ const App: React.FC<RouteComponentProps<{}> & AppProps> = ({
         requestMe(user);
       }
     });
-  }, []);
+  }, [requestMe, userLoginSuccess]);
 
   return isLoggedIn && me.uid ? (
     <PrivateRoute key={1} />

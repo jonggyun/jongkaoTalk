@@ -2,6 +2,9 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { Icon } from 'antd';
 
+import UserProfileModal from '../common/UserProfileModal';
+// import UserProfileModalContainer from '../../containers/common/UserProfileModalContainer';
+
 interface SProps {
   readonly loading?: boolean;
 }
@@ -16,7 +19,9 @@ const Wrapper = styled.div<SProps>`
           justify-content: center;
           align-items: center;
         `
-      : null};
+      : css`
+          cursor: pointer;
+        `};
 `;
 
 const ProfileImage = styled.img`
@@ -44,26 +49,42 @@ interface IProps {
   username: string;
   userProfileImage: string;
   description: string;
+  email: string;
+  handleOnClick: () => void;
+  isShow: boolean;
 }
 const MyProfile: React.FC<IProps> = ({
   loading,
   username,
   userProfileImage,
   description,
+  email,
+  handleOnClick,
+  isShow,
 }) => (
-  <Wrapper loading={loading}>
-    {!loading ? (
-      <Icon style={{ fontSize: '40px' }} type="loading" />
-    ) : (
-      <>
-        <ProfileImage src={userProfileImage} alt="my_profile" />
-        <ProfileInfo>
-          <span>{username}</span>
-          <span>{description}</span>
-        </ProfileInfo>
-      </>
-    )}
-  </Wrapper>
+  <>
+    <Wrapper loading={loading} onClick={handleOnClick}>
+      {!loading ? (
+        <Icon style={{ fontSize: '40px' }} type="loading" />
+      ) : (
+        <>
+          <ProfileImage src={userProfileImage} alt="my_profile" />
+          <ProfileInfo>
+            <span>{username}</span>
+            <span>{description}</span>
+          </ProfileInfo>
+        </>
+      )}
+    </Wrapper>
+    <UserProfileModal
+      isShow={isShow}
+      handleOnClick={handleOnClick}
+      username={username}
+      userProfileImage={userProfileImage}
+      description={description}
+      email={email}
+    />
+  </>
 );
 
 export default MyProfile;

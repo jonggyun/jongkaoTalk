@@ -1,8 +1,8 @@
 // import
-import { Dispatch, Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { Dispatch } from 'redux';
+// import { ThunkDispatch } from 'redux-thunk';
 import produce from 'immer';
-import { toastr } from 'react-redux-toastr';
+// import { toastr } from 'react-redux-toastr';
 
 import * as UserFirebase from '../lib/firebase/user';
 
@@ -14,6 +14,7 @@ interface UserDocument {
   username: string;
   userProfileImage: string;
   description: string;
+  email: string;
 }
 
 export const myProfile = (payload: UserDocument) => ({
@@ -29,8 +30,9 @@ export const getUserInfo = (uid: string) => {
         username,
         userProfileImage,
         description,
+        email,
       } = await UserFirebase.getUserProfile(uid);
-      dispatch(myProfile({ username, userProfileImage, description }));
+      dispatch(myProfile({ username, userProfileImage, description, email }));
     } catch (err) {
       console.log('err', err);
     }
@@ -48,6 +50,7 @@ const initialState: UserState = {
     username: '',
     userProfileImage: '',
     description: '',
+    email: '',
   },
 };
 

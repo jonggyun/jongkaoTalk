@@ -41,7 +41,7 @@ const UserProfileContainer: React.FC<RouteComponentProps<{}> & IProps> = ({
         setUserProfileImage('');
       }
     })();
-  }, [changeImage]);
+  }, [uid, changeImage]);
 
   const handleUploadFile = async (e: React.FormEvent<HTMLInputElement>) => {
     await endpoints.userProfileImageRegister({

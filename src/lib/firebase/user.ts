@@ -70,12 +70,12 @@ export const getProfileImage = async ({ uid }: { uid: string }) => {
 };
 
 export const getUserProfile = async (uid: string) => {
-  const { username, profileImage, description } = (await firestoreDB
+  const { username, profileImage, description, email } = (await firestoreDB
     .collection('users')
     .doc(uid)
     .get()).data();
   const userProfileImage = await storageRef
     .child(`profile/${profileImage}`)
     .getDownloadURL();
-  return { username, userProfileImage, description };
+  return { username, userProfileImage, description, email };
 };
